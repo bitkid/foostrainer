@@ -2,12 +2,18 @@ let synth = window.speechSynthesis;
 let playButton = document.querySelector('#play');
 let stopButton = document.querySelector('#stop');
 let utterThis = new SpeechSynthesisUtterance();
+utterThis.pitch = 1;
+utterThis.rate = 1;
+utterThis.onerror = function () {
+    console.error('SpeechSynthesisUtterance.onerror');
+}
+
 let noSleep = new NoSleep();
 
 let setupTimeout = 2000;
 let afterGoalSetupTime = 7000;
 let minimumPassDelay = 2000;
-let minimumShootDelay = 3000;
+let minimumShootDelay = 4000;
 let maxTimeOnFiveBar = 10000;
 let maxTimeOnThreeBar = 17000;
 let fiveBarGoals = ["wall pass", "lane pass", "center pass"];
@@ -17,20 +23,16 @@ let playing = false;
 
 function setup() {
     document.getElementById("stop").disabled = true;
+    utterThis.voice = speechSynthesis
+        .getVoices()
+        .find(voice => voice.lang.toLowerCase().indexOf("gb") !== -1);
+    console.log(utterThis.voice);
 }
 
 window.onload = setup;
 
 function speak(myTxt) {
-    utterThis.onerror = function () {
-        console.error('SpeechSynthesisUtterance.onerror');
-    }
     utterThis.text = myTxt;
-    utterThis.voice = speechSynthesis
-        .getVoices()
-        .find(voice => voice.lang.toLowerCase().indexOf("en-gb") !== -1);
-    utterThis.pitch = 1;
-    utterThis.rate = 1;
     synth.speak(utterThis);
 }
 
