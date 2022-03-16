@@ -10,7 +10,7 @@ utterThis.onerror = function () {
 
 let noSleep = new NoSleep();
 
-let setupTimeout = 2000;
+let setupTimeout = 3000;
 let afterGoalSetupTime = 7000;
 let minimumPassDelay = 2000;
 let minimumShootDelay = 4000;
