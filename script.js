@@ -1,6 +1,8 @@
 let synth = window.speechSynthesis;
 let playButton = document.querySelector('#play');
 let stopButton = document.querySelector('#stop');
+let pitch = document.querySelector('#goal-delay');
+let pitchValue = document.querySelector('.goal-delay-value');
 let utterThis = new SpeechSynthesisUtterance();
 utterThis.pitch = 1;
 utterThis.rate = 1;
@@ -11,7 +13,6 @@ utterThis.onerror = function () {
 let noSleep = new NoSleep();
 
 let setupTimeout = 3000;
-let afterGoalSetupTime = 7000;
 let minimumPassDelay = 2000;
 let minimumShootDelay = 4000;
 let maxTimeOnFiveBar = 10000;
@@ -66,7 +67,7 @@ function speakAndSchedule(txt, fun, interval) {
 }
 
 function shoot() {
-    speakAndSchedule(getRandomThree(), readyFive, afterGoalSetupTime);
+    speakAndSchedule(getRandomThree(), readyFive, pitch.value * 1000);
 }
 
 function pass() {
@@ -79,6 +80,10 @@ function startFiveBar() {
 
 function readyFive() {
     speakAndSchedule("setup five bar", startFiveBar, setupTimeout);
+}
+
+pitch.onchange = function () {
+    pitchValue.textContent = "Goal reset delay " + pitch.value + " seconds";
 }
 
 playButton.onclick = function (event) {

@@ -49,19 +49,13 @@ form > div {
 
 label {
     float: left;
-    width: 10%;
+    width: 50%;
     line-height: 1.5;
 }
 
-.rate-value, .pitch-value {
-    float: right;
-    width: 5%;
-    line-height: 1.5;
-}
-
-#rate, #pitch {
-    float: right;
-    width: 81%;
+#goal-delay {
+    alignment: center;
+    width: 80%;
 }
 
 .controls {
