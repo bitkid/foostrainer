@@ -14,27 +14,25 @@
 <body>
 <h1>Foosball routine</h1>
 
-<p>Put the ball into play on your five bar like you would for a normal match</p>
-<p>Click the "Start training" button</p>
-<p>As soon as you hear GO start moving the ball on your 5 bar</p>
+<div id="passes"></div>
+<div id="shots"></div>
+<div id="timing"><p>Timing</p></div>
 
 <form>
     <div class="controls">
-        <button id="play" type="button">Start training</button>
+        <button id="play" type="button">Start</button>
     </div>
     <div class="controls">
-        <button id="stop" type="button">Stop training</button>
+        <button id="stop" type="button">Stop</button>
     </div>
     <div class="controls">
-        <div class="goal-delay-value">Goal reset delay 5 seconds</div>
+        <div class="goal-delay-value">Goal reset delay 2 seconds</div>
     </div>
     <div class="controls">
-        <input id="goal-delay" max="20" min="1" step="1" type="range" value="5">
+        <input id="goal-delay" max="15" min="1" step="1" type="range" value="2">
     </div>
 </form>
 
-<div id="passes"></div>
-<div id="shots"></div>
 
 <script src="routine.js?26"></script>
 <script src="script.js?26"></script>

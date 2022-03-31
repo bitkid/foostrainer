@@ -3,6 +3,7 @@ const stopButton = document.querySelector('#stop');
 const goalDelay = document.querySelector('#goal-delay');
 const passesDiv = document.querySelector('#passes');
 const shotsDiv = document.querySelector('#shots');
+const timingDiv = document.querySelector('#timing');
 const goalDelayValue = document.querySelector('.goal-delay-value');
 let routine = null;
 
@@ -18,7 +19,8 @@ function setup() {
     }
     console.log(fiveBarGoals);
     console.log(threeBarGoals);
-    routine = new FoosballRoutine(fiveBarGoals, threeBarGoals, 5);
+    let timeDiv = new TimeDiv(timingDiv);
+    routine = new FoosballRoutine(fiveBarGoals, threeBarGoals, 5, timeDiv);
 
     document.getElementById("stop").disabled = true;
     passesDiv.innerHTML = "<p>Passes: " + routine.fiveBarGoals.join(", ") + "</p>";

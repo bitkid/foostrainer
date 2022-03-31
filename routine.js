@@ -1,5 +1,15 @@
+class TimeDiv {
+    constructor(ui) {
+        this.timeDiv = ui;
+    }
+
+    setTime(name, time) {
+        this.timeDiv.innerHTML = "<p>" + name + " in <span class=\"redFont\">" + (time / 1000).toFixed(1) + "</span> seconds" + "</p>";
+    }
+}
+
 class FoosballRoutine {
-    constructor(fbGoals, tbGoals, afterGoalDelay) {
+    constructor(fbGoals, tbGoals, afterGoalDelay, showTime) {
         this.synth = window.speechSynthesis;
 
         this.utterThis = new SpeechSynthesisUtterance();
@@ -14,16 +24,18 @@ class FoosballRoutine {
             .find(voice => voice.lang.toLowerCase().indexOf("gb") !== -1);
         console.log(this.utterThis.voice);
 
-        this.setupTimeout = 3000;
-        this.minimumPassDelay = 2000;
-        this.minimumShootDelay = 4000;
+        this.setupTimeout = 2000;
+        this.timeUntilSecondTouch = 1500;
+        this.passExecutionTime = 2000;
+        this.shotExecutionTime = 2000;
         this.maxTimeOnFiveBar = 10000;
-        this.maxTimeOnThreeBar = 17000;
+        this.maxTimeOnThreeBar = 15000;
         this.fiveBarGoals = fbGoals;
         this.threeBarGoals = tbGoals;
         this.resetTime = afterGoalDelay;
         this.playing = false;
 
+        this.timeDiv = showTime;
         this.noSleep = new NoSleep();
     }
 
@@ -45,7 +57,7 @@ class FoosballRoutine {
     }
 
     endRoutine() {
-        this.speak("You are done!");
+        this.speak("well done");
     }
 
     setCancellableTimeout(fun, interval) {
@@ -70,15 +82,19 @@ class FoosballRoutine {
     }
 
     pass(obj) {
-        obj.speakAndSchedule(obj.getRandomFive(), obj.shoot, Math.max(Math.random() * obj.maxTimeOnThreeBar, obj.minimumShootDelay));
+        let timeTillShot = obj.passExecutionTime + Math.random() * (obj.maxTimeOnThreeBar - obj.shotExecutionTime);
+        obj.timeDiv.setTime("Shoot", timeTillShot)
+        obj.speakAndSchedule(obj.getRandomFive(), obj.shoot, timeTillShot);
     }
 
     startFiveBar(obj) {
-        obj.speakAndSchedule("go", obj.pass, Math.max(Math.random() * obj.maxTimeOnFiveBar, obj.minimumPassDelay));
+        let timeTillPass = obj.timeUntilSecondTouch + Math.random() * (obj.maxTimeOnFiveBar - obj.passExecutionTime);
+        obj.timeDiv.setTime("Pass", timeTillPass)
+        obj.speakAndSchedule("go", obj.pass, timeTillPass);
     }
 
     readyFive(obj) {
-        obj.speakAndSchedule("setup five bar", obj.startFiveBar, obj.setupTimeout);
+        obj.speakAndSchedule("ready", obj.startFiveBar, obj.setupTimeout);
     }
 
     start() {

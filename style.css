@@ -26,6 +26,10 @@ select, form > div {
     padding: 5px;
 }
 
+.redFont {
+    color: red;
+}
+
 .txt {
     width: 80%;
 }
