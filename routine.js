@@ -19,12 +19,7 @@ class FoosballRoutine {
             console.error('SpeechSynthesisUtterance.onerror');
         }
 
-        console.log(speechSynthesis.getVoices());
-
-        this.utterThis.voice = speechSynthesis
-            .getVoices()
-            .find(voice => voice.lang.toLowerCase().indexOf("gb") !== -1);
-        console.log(this.utterThis.voice);
+        this.setVoice();
 
         this.setupTimeout = 2000;
         this.timeUntilSecondTouch = 1500;
@@ -41,6 +36,14 @@ class FoosballRoutine {
         this.noSleep = new NoSleep();
 
         this.timeout = null;
+    }
+
+    setVoice() {
+        console.log(speechSynthesis.getVoices());
+        this.utterThis.voice = speechSynthesis
+            .getVoices()
+            .find(voice => voice.lang.toLowerCase().indexOf("gb") !== -1);
+        console.log(this.utterThis.voice);
     }
 
     speak(myTxt) {
@@ -95,6 +98,8 @@ class FoosballRoutine {
         this.playing = true;
         // noinspection JSCheckFunctionSignatures
         this.noSleep.enable();
+        if (this.utterThis.voice === null)
+            this.setVoice();
         this.readyFive(this);
     }
 
