@@ -19,6 +19,8 @@ class FoosballRoutine {
             console.error('SpeechSynthesisUtterance.onerror');
         }
 
+        console.log(speechSynthesis.getVoices());
+
         this.utterThis.voice = speechSynthesis
             .getVoices()
             .find(voice => voice.lang.toLowerCase().indexOf("gb") !== -1);
@@ -37,6 +39,8 @@ class FoosballRoutine {
 
         this.timeDiv = showTime;
         this.noSleep = new NoSleep();
+
+        this.timeout = null;
     }
 
     speak(myTxt) {
@@ -60,20 +64,10 @@ class FoosballRoutine {
         this.speak("well done");
     }
 
-    setCancellableTimeout(fun, interval) {
-        if (!this.playing) {
-            this.endRoutine();
-        } else {
-            setTimeout(fun, interval, this);
-        }
-    }
-
     speakAndSchedule(txt, fun, interval) {
-        if (!this.playing) {
-            this.endRoutine();
-        } else {
-            this.speak(txt)
-            this.setCancellableTimeout(fun, interval);
+        if (this.playing) {
+            this.speak(txt);
+            this.timeout = setTimeout(fun, interval, this);
         }
     }
 
@@ -83,13 +77,13 @@ class FoosballRoutine {
 
     pass(obj) {
         let timeTillShot = obj.passExecutionTime + Math.random() * (obj.maxTimeOnThreeBar - obj.shotExecutionTime);
-        obj.timeDiv.setTime("Shoot", timeTillShot)
+        obj.timeDiv.setTime("Shoot", timeTillShot);
         obj.speakAndSchedule(obj.getRandomFive(), obj.shoot, timeTillShot);
     }
 
     startFiveBar(obj) {
         let timeTillPass = obj.timeUntilSecondTouch + Math.random() * (obj.maxTimeOnFiveBar - obj.passExecutionTime);
-        obj.timeDiv.setTime("Pass", timeTillPass)
+        obj.timeDiv.setTime("Pass", timeTillPass);
         obj.speakAndSchedule("go", obj.pass, timeTillPass);
     }
 
@@ -106,7 +100,10 @@ class FoosballRoutine {
 
     stop() {
         this.playing = false;
+        clearTimeout(this.timeout);
+        this.timeout = null;
         // noinspection JSCheckFunctionSignatures
         this.noSleep.disable();
+        this.endRoutine();
     }
 }
