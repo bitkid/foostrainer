@@ -1,10 +1,23 @@
 class TimeDiv {
     constructor(ui) {
         this.timeDiv = ui;
+        this.setReady();
     }
 
-    setTime(name, time) {
-        this.timeDiv.innerHTML = "<p>" + name + " in <span class=\"redFont\">" + (time / 1000).toFixed(1) + "</span> seconds" + "</p>";
+    setTime(txt, time) {
+        this.setText(txt + " <span class=\"redFont\">" + (time / 1000).toFixed(1) + "</span> seconds");
+    }
+
+    setReady() {
+        this.setText("Ready?")
+    }
+
+    setText(txt) {
+        this.timeDiv.innerHTML = "<p>" + txt + "</p>";
+    }
+
+    setRedText(txt) {
+        this.timeDiv.innerHTML = "<p><span class=\"redFont\">" + txt + "</span></p>";
     }
 }
 
@@ -22,8 +35,8 @@ class FoosballRoutine {
         this.setVoice();
 
         this.setupTimeout = 2000;
-        this.timeUntilSecondTouch = 1500;
-        this.passExecutionTime = 2000;
+        this.timeUntilSecondTouch = 2000;
+        this.passExecutionTime = 4000;
         this.shotExecutionTime = 2000;
         this.maxTimeOnFiveBar = 10000;
         this.maxTimeOnThreeBar = 15000;
@@ -69,35 +82,51 @@ class FoosballRoutine {
 
     speakAndSchedule(txt, fun, interval) {
         if (this.playing) {
-            this.speak(txt);
+            if (txt !== null)
+                this.speak(txt);
             this.timeout = setTimeout(fun, interval, this);
         }
     }
 
     shoot(obj) {
         obj.speakAndSchedule(obj.getRandomThree(), obj.readyFive, obj.resetTime * 1000);
+        obj.timeDiv.setRedText("Shoot!");
+    }
+
+    executePass(obj) {
+        let timeTillShot = Math.random() * (obj.maxTimeOnThreeBar - obj.shotExecutionTime);
+        obj.speakAndSchedule(null, obj.shoot, timeTillShot);
+
+        obj.timeDiv.setTime("Shoot in", timeTillShot);
     }
 
     pass(obj) {
-        let timeTillShot = obj.passExecutionTime + Math.random() * (obj.maxTimeOnThreeBar - obj.shotExecutionTime);
-        obj.timeDiv.setTime("Shoot", timeTillShot);
-        obj.speakAndSchedule(obj.getRandomFive(), obj.shoot, timeTillShot);
+        obj.speakAndSchedule(obj.getRandomFive(), obj.executePass, obj.passExecutionTime);
+        obj.timeDiv.setRedText("Pass!");
+    }
+
+    secondTouch(obj) {
+        let timeTillPass = Math.random() * (obj.maxTimeOnFiveBar - obj.passExecutionTime);
+        obj.speakAndSchedule(null, obj.pass, timeTillPass);
+
+        obj.timeDiv.setTime("Pass in", timeTillPass);
     }
 
     startFiveBar(obj) {
-        let timeTillPass = obj.timeUntilSecondTouch + Math.random() * (obj.maxTimeOnFiveBar - obj.passExecutionTime);
-        obj.timeDiv.setTime("Pass", timeTillPass);
-        obj.speakAndSchedule("go", obj.pass, timeTillPass);
+        obj.speakAndSchedule("Go!", obj.secondTouch, obj.timeUntilSecondTouch);
+        obj.timeDiv.setRedText("Go!");
     }
 
     readyFive(obj) {
-        obj.speakAndSchedule("ready", obj.startFiveBar, obj.setupTimeout);
+        obj.speakAndSchedule("Ready?", obj.startFiveBar, obj.setupTimeout);
+        obj.timeDiv.setReady();
     }
 
     start() {
         this.playing = true;
         // noinspection JSCheckFunctionSignatures
         this.noSleep.enable();
+        // in some browsers speech initialisation is just too slow, so try again here
         if (this.utterThis.voice === null)
             this.setVoice();
         this.readyFive(this);
@@ -110,5 +139,6 @@ class FoosballRoutine {
         // noinspection JSCheckFunctionSignatures
         this.noSleep.disable();
         this.endRoutine();
+        this.timeDiv.setReady();
     }
 }
