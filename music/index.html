@@ -8,8 +8,10 @@
     <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
     <script src="./webaudio-tinysynth.js"></script>
     <script src="https://g200kg.github.io/webaudio-controls/webaudio-controls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link href="style.css?2" rel="stylesheet">
 </head>
 <body>
 <h1>Music trainer</h1>
@@ -20,7 +22,17 @@
 <br>
 <div id="currentNote"><h1>:)</h1></div>
 <br>
+<h2>Notate song beginnings</h2>
+<button id="playFirst" type="button">Play first note</button>
+<button id="playRoot" type="button">Play root note</button>
+<button id="playSong" type="button">Play song</button>
+<button id="changeSong" type="button">Change song</button>
+<button id="showSong" type="button">Show song</button>
+<br>
+<div id="currentSong"><h1>:)</h1></div>
+<div id="output"></div>
+<br>
 <webaudio-tinysynth id="tinysynth"></webaudio-tinysynth>
-<script src="music.js?3"></script>
+<script src="music.js?6"></script>
 </body>
 </html>
