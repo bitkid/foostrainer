@@ -3,10 +3,8 @@
     import {base} from "$app/paths";
     import {SynthWrapper} from "$lib/SynthWrapper";
     import {player} from "./store";
-
-    const webAudioModule = require('webaudio-tinysynth');
-
-    const {WebAudioTinySynth} = webAudioModule;
+    // @ts-ignore
+    import WebAudioTinySynth from 'webaudio-tinysynth';
 
     onMount(() => {
         player.set(new SynthWrapper(new WebAudioTinySynth({quality: 1, useReverb: 0})));
