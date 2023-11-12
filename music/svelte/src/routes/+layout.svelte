@@ -13,8 +13,8 @@
 
 <nav>
     <a href="{base}/">home</a>
-    <a href="{base}/fork">fork</a>
-    <a href="{base}/songs">songs</a>
+    <a href="{base}/fork">stimmgabel</a>
+    <a href="{base}/songs">liedanf&auml;nge</a>
 </nav>
 
 <slot/>

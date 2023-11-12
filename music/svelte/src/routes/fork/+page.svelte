@@ -4,9 +4,12 @@
     import {notes} from "$lib/MusicData";
 
     let currentNote: Note = getRandomNote();
-    let divContent: string = ":-)";
-
     let playing: boolean = false;
+
+    let spree = 0;
+    let rank = "Blechohr";
+    let message: string = "Viel Gl&uuml;ck!";
+
 
     function playSound() {
         playing = true;
@@ -17,21 +20,54 @@
 
     function getRandomNote(): Note {
         let r = Math.floor(Math.random() * notes.length);
-        return notes[r];
+        let note = notes[r];
+        console.log(note.name);
+        return note;
     }
 
-    function newNote() {
+    function checkNote(note: Note) {
+        if (currentNote.midiNote == note.midiNote) {
+            spree++;
+            message = "Nice!";
+            if (spree == 1) {
+                rank = "Fl&ouml;tentierchen"
+            } else if (spree == 2) {
+                rank = "Geigeneumel"
+            } else if (spree == 3) {
+                rank = "Paukenpingu";
+            } else if (spree == 4) {
+                rank = "Ameisenmozart";
+            } else if (spree == 5) {
+                rank = "Bachforelle";
+            } else if (spree == 6) {
+                rank = "Gnubert";
+            } else {
+                rank = "Michael Jackson";
+            }
+        } else {
+            spree = 0;
+            rank = "Blechohr";
+            message = "Oh nein! Es w&auml;hre ein " + currentNote.name + " gewesen. Probiers nochmal!";
+        }
         currentNote = getRandomNote();
-        divContent = ":-)";
-    }
-
-    function showNote() {
-        divContent = currentNote.name;
     }
 </script>
-<h1>FORK</h1>
-<button disabled={playing} id="play" on:click={playSound} type="button">Play note</button>
-<button id="show" on:click={showNote} type="button">Show note</button>
-<button id="change" on:click={newNote} type="button">Change note</button>
+<h1>Stimmgabel Training</h1>
+<button disabled={playing} id="play" on:click={playSound} type="button">Ton abspielen</button>
 <br>
-<div id="noteDiv"><h2>{divContent}</h2></div>
+<br>
+<div id="notes">
+    {#each notes as n, i}
+        <button on:click={() => checkNote(n)}>{n.name}</button>
+    {/each}
+</div>
+<br>
+<div id="score">
+    <h3>Punkte: {spree}</h3>
+</div>
+<div id="score">
+    <h3>Rang: {@html rank}</h3>
+</div>
+<div id="message">
+    <h3>{@html message}</h3>
+</div>
