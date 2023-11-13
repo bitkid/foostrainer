@@ -21,25 +21,26 @@ export const notes: Note[] = [
 export interface PotentialNote {
     what: string,
     with: string | undefined,
-    noteLine: string
+    noteLine: string,
+    direction: number
 }
 
 export const notesDisambiguation = new Map<number, PotentialNote[]>([
-    [0, [{noteLine: "B", what: "B#", with: "#"}, {noteLine: "C", what: "C", with: undefined}]],
-    [1, [{noteLine: "C", what: "C#", with: "#"}, {noteLine: "D", what: "Db", with: "b"}]],
-    [2, [{noteLine: "D", what: "D", with: undefined}]],
-    [3, [{noteLine: "D", what: "D#", with: "#"}, {noteLine: "E", what: "Eb", with: "b"}]],
-    [4, [{noteLine: "E", what: "E", with: undefined}, {noteLine: "F", what: "Fb", with: "b"}]],
-    [5, [{noteLine: "F", what: "F", with: undefined}, {noteLine: "E", what: "E#", with: "#"}]],
-    [6, [{noteLine: "F", what: "F#", with: "#"}, {noteLine: "G", what: "Gb", with: "b"}]],
-    [7, [{noteLine: "G", what: "G", with: undefined}]],
-    [8, [{noteLine: "G", what: "G#", with: "#"}, {noteLine: "A", what: "Ab", with: "b"}]],
-    [9, [{noteLine: "A", what: "A", with: undefined}]],
-    [10, [{noteLine: "A", what: "A#", with: "#"}, {noteLine: "B", what: "Bb", with: "b"}]],
-    [11, [{noteLine: "B", what: "B", with: undefined}, {noteLine: "C", what: "Cb", with: "b"}]],
+    [0, [{noteLine: "B", what: "B#", with: "#", direction: -1}, {noteLine: "C", what: "C", with: undefined, direction: 0}]],
+    [1, [{noteLine: "C", what: "C#", with: "#", direction: 0}, {noteLine: "D", what: "Db", with: "b", direction: 0}]],
+    [2, [{noteLine: "D", what: "D", with: undefined, direction: 0}]],
+    [3, [{noteLine: "D", what: "D#", with: "#", direction: 0}, {noteLine: "E", what: "Eb", with: "b", direction: 0}]],
+    [4, [{noteLine: "E", what: "E", with: undefined, direction: 0}, {noteLine: "F", what: "Fb", with: "b", direction: 0}]],
+    [5, [{noteLine: "F", what: "F", with: undefined, direction: 0}, {noteLine: "E", what: "E#", with: "#", direction: 0}]],
+    [6, [{noteLine: "F", what: "F#", with: "#", direction: 0}, {noteLine: "G", what: "Gb", with: "b", direction: 0}]],
+    [7, [{noteLine: "G", what: "G", with: undefined, direction: 0}]],
+    [8, [{noteLine: "G", what: "G#", with: "#", direction: 0}, {noteLine: "A", what: "Ab", with: "b", direction: 0}]],
+    [9, [{noteLine: "A", what: "A", with: undefined, direction: 0}]],
+    [10, [{noteLine: "A", what: "A#", with: "#", direction: 0}, {noteLine: "B", what: "Bb", with: "b", direction: 0}]],
+    [11, [{noteLine: "B", what: "B", with: undefined, direction: 0}, {noteLine: "C", what: "Cb", with: "b", direction: 1}]],
 ]);
 
-export const scales: string[] = ["C", "C#", "Db", "D", "Eb", "E", "F", "F#", "Gb", "G", "Ab", "A", "Bb", "B"];
+export const scales: string[] = ["C", "C#", "Db", "D", "Eb", "E", "F", "F#", "Gb", "G", "Ab", "A", "Bb", "B", "Cb"];
 
 export interface Scale {
     offset: number
@@ -71,36 +72,6 @@ export const majorCircleOf5thsSharp: string[] = ["F#", "C#", "G#", "D#", "A#", "
 export const majorCircleOf5thsFlat: string[] = ["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"];
 
 export const majorIntervals: number[] = [0, 2, 4, 5, 7, 9, 11];
-
-export class ScaleHelper {
-    public static getNotesForScale(scale: Scale): string[] {
-        let accidentals: string[];
-        if (scale.accidental == undefined) {
-            accidentals = [];
-        } else if (scale.accidental == "#") {
-            accidentals = majorCircleOf5thsSharp.slice(0, scale.numAccidental);
-        } else {
-            accidentals = majorCircleOf5thsFlat.slice(0, scale.numAccidental);
-        }
-        return majorIntervals.map((i: number): PotentialNote => {
-            const canBees = notesDisambiguation.get((i + scale.offset) % 12)!!;
-            if (accidentals.length == 0) {
-                const cb = canBees.filter((x) => x.with == undefined)
-                if (cb.length != 1)
-                    throw new Error()
-                return cb[0];
-            } else {
-                const cb = canBees.filter((x) => accidentals.indexOf(x.what) != -1)
-                if (cb.length == 1)
-                    return cb[0];
-                const cb1 = canBees.filter((x) => x.with === undefined)
-                if (cb1.length != 1)
-                    throw new Error()
-                return cb1[0];
-            }
-        }).map((c) => c.what);
-    }
-}
 
 export interface Song {
     scaleTones: number[],

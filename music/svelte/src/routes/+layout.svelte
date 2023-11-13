@@ -15,6 +15,7 @@
     <a href="{base}/">home</a>
     <a href="{base}/fork">stimmgabel</a>
     <a href="{base}/songs">liedanf&auml;nge</a>
+    <a href="{base}/scale">skalen</a>
 </nav>
 
 <slot/>

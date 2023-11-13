@@ -2,27 +2,20 @@
     import {player} from "../store";
     import type {Note} from "$lib/MusicData";
     import {notes} from "$lib/MusicData";
+    import {RandomHelper} from "$lib/RandomHelper";
 
-    let currentNote: Note = getRandomNote();
+    let currentNote: Note = RandomHelper.getRandomNote();
     let playing: boolean = false;
 
     let spree = 0;
     let rank = "Blechohr";
     let message: string = "Viel Gl&uuml;ck!";
 
-
     function playSound() {
         playing = true;
         $player.play(currentNote.midiNote, function () {
             playing = false;
         })
-    }
-
-    function getRandomNote(): Note {
-        let r = Math.floor(Math.random() * notes.length);
-        let note = notes[r];
-        console.log(note.name);
-        return note;
     }
 
     function checkNote(note: Note) {
@@ -49,7 +42,7 @@
             rank = "Blechohr";
             message = "Oh nein! Es w&auml;hre ein " + currentNote.name + " gewesen. Probiers nochmal!";
         }
-        currentNote = getRandomNote();
+        currentNote = RandomHelper.getRandomNote();
     }
 </script>
 <h1>Stimmgabel Training</h1>
@@ -57,7 +50,7 @@
 <br>
 <br>
 <div id="notes">
-    {#each notes as n, i}
+    {#each notes as n}
         <button on:click={() => checkNote(n)}>{n.name}</button>
     {/each}
 </div>

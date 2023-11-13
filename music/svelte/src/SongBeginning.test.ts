@@ -1,6 +1,8 @@
 import {describe, expect, it} from 'vitest';
-import {bundesHymneSong, majorScalesMap, ScaleHelper, scales, songStart, usaSong, vogelSong} from "$lib/MusicData";
+import {bundesHymneSong, majorIntervals, majorScalesMap, scales, songStart, usaSong, vogelSong} from "$lib/MusicData";
 import {SongBeginning} from "$lib/SongBeginning";
+import type {StaveNote} from "vexflow";
+import {ScaleHelper} from "$lib/ScaleHelper";
 
 describe('song beginning', () => {
     it('knows root note', () => {
@@ -46,7 +48,7 @@ describe('song beginning', () => {
 
         const sg = new SongBeginning("treble", "Gb", vogelSong);
         const keysg: string[] = sg.getStaveNotes().map((x) => x.keys[0]);
-        expect(keysg).toStrictEqual(['B/4', 'C/4', 'D/5']);
+        expect(keysg).toStrictEqual(['B/4', 'C/5', 'D/5']);
 
         const sb = new SongBeginning("treble", "C#", bundesHymneSong);
         const keysb: string[] = sb.getStaveNotes().map((x) => x.keys[0]);
@@ -54,7 +56,7 @@ describe('song beginning', () => {
 
         const ssb = new SongBeginning("treble", "Gb", bundesHymneSong);
         const keysgsb: string[] = ssb.getStaveNotes().map((x) => x.keys[0]);
-        expect(keysgsb).toStrictEqual(['D/5', 'C/4', 'B/4']);
+        expect(keysgsb).toStrictEqual(['D/5', 'C/5', 'B/4']);
     });
     it('knows correct notes for scale', () => {
         expect(ScaleHelper.getNotesForScale(majorScalesMap.get("A")!!)).toStrictEqual(['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']);
@@ -62,5 +64,21 @@ describe('song beginning', () => {
         expect(ScaleHelper.getNotesForScale(majorScalesMap.get("C")!!)).toStrictEqual(["C", "D", "E", "F", "G", "A", "B"]);
         expect(ScaleHelper.getNotesForScale(majorScalesMap.get("C#")!!)).toStrictEqual(["C#", "D#", "E#", "F#", "G#", "A#", "B#"]);
         expect(ScaleHelper.getNotesForScale(majorScalesMap.get("Gb")!!)).toStrictEqual(["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"]);
+    });
+    it('knows stave note for  for C#', () => {
+        const scale = majorScalesMap.get("C#")!!;
+        const scaleNotes = ScaleHelper.getNotesForScale(scale);
+        const listOfNotes = majorIntervals.map((i: number): StaveNote => {
+            return SongBeginning.getStaveNoteForValue(60 + scale.offset + i, scaleNotes);
+        });
+        expect(listOfNotes.map((x) => x.keys[0])).toStrictEqual(['C/4', 'D/4', 'E/4', 'F/4', "G/4", "A/4", "B/4"]);
+    });
+    it('knows stave note for  for Gb', () => {
+        const scale = majorScalesMap.get("Gb")!!;
+        const scaleNotes = ScaleHelper.getNotesForScale(scale);
+        const listOfNotes = majorIntervals.map((i: number): StaveNote => {
+            return SongBeginning.getStaveNoteForValue(60 + scale.offset + i, scaleNotes);
+        });
+        expect(listOfNotes.map((x) => x.keys[0])).toStrictEqual(['G/4', 'A/4', 'B/4', 'C/5', "D/5", "E/5", "F/5"]);
     });
 });

@@ -2,9 +2,9 @@
     import {Formatter, RenderContext, Renderer, Stave, StaveNote, Voice} from "vexflow";
     import {onMount} from 'svelte';
     import {player} from "../store";
-    import {SongBeginning} from "$lib/SongBeginning";
+    import {RandomHelper} from "$lib/RandomHelper";
 
-    let currentSong = SongBeginning.getRandom();
+    let currentSong = RandomHelper.getRandomSongBeginning();
 
     const secret = "???";
 
@@ -78,7 +78,7 @@
 
     function changeSong() {
         divContent = secret;
-        currentSong = SongBeginning.getRandom();
+        currentSong = RandomHelper.getRandomSongBeginning();
         drawEmpty(undefined);
     }
 
