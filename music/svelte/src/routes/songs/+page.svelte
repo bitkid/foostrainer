@@ -1,8 +1,8 @@
 <script lang="ts">
     import {Formatter, RenderContext, Renderer, Stave, StaveNote, Voice} from "vexflow";
     import {onMount} from 'svelte';
-    import {SongBeginning} from "$lib/MusicData";
     import {player} from "../store";
+    import {SongBeginning} from "$lib/SongBeginning";
 
     let currentSong = SongBeginning.getRandom();
 

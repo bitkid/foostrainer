@@ -1,5 +1,3 @@
-import {StaveNote} from "vexflow";
-
 export interface Note {
     name: string
     midiNote: number
@@ -20,13 +18,13 @@ export const notes: Note[] = [
     {name: "H", midiNote: 71}
 ];
 
-interface CanBe {
+export interface PotentialNote {
     what: string,
     with: string | undefined,
     noteLine: string
 }
 
-export const notesDisambiguation = new Map<number, CanBe[]>([
+export const notesDisambiguation = new Map<number, PotentialNote[]>([
     [0, [{noteLine: "B", what: "B#", with: "#"}, {noteLine: "C", what: "C", with: undefined}]],
     [1, [{noteLine: "C", what: "C#", with: "#"}, {noteLine: "D", what: "Db", with: "b"}]],
     [2, [{noteLine: "D", what: "D", with: undefined}]],
@@ -84,7 +82,7 @@ export class ScaleHelper {
         } else {
             accidentals = majorCircleOf5thsFlat.slice(0, scale.numAccidental);
         }
-        return majorIntervals.map((i: number): CanBe => {
+        return majorIntervals.map((i: number): PotentialNote => {
             const canBees = notesDisambiguation.get((i + scale.offset) % 12)!!;
             if (accidentals.length == 0) {
                 const cb = canBees.filter((x) => x.with == undefined)
@@ -129,73 +127,3 @@ export const vogelHochzeitSong: Song = {scaleTones: [3, 5], name: "Vogelhochzeit
 export const songStart: Song[] = [bruderJakobSong, zylinderHutSong, vogelSong, bundesHymneSong, paukeSong, abcSong, beethovenSong, miauSong,
     geigeSong, mozartSong, usaSong, wachetAufSong, kuckuckSong, vogelHochzeitSong];
 
-export class SongBeginning {
-    private readonly _song: Song = vogelSong;
-    private readonly _scaleNotes: string[];
-    private readonly _clef: string;
-    private readonly _scale: string;
-
-    constructor(clef: string, scale: string, song: Song) {
-        this._clef = clef;
-        this._scale = scale;
-        this._song = song;
-        this._scaleNotes = ScaleHelper.getNotesForScale(majorScalesMap.get(this._scale)!!);
-    }
-
-    public static getRandom(): SongBeginning {
-        return new SongBeginning(SongBeginning.getRandomClef(), SongBeginning.getRandomScale(), SongBeginning.getRandomSong());
-    }
-
-    get clef(): string {
-        return this._clef;
-    }
-
-
-    get scale(): string {
-        return this._scale;
-    }
-
-    public static getRandomClef(): string {
-        if (Math.random() < 0.5) {
-            return "treble";
-        } else {
-            return "bass";
-        }
-    }
-
-    public static getRandomScale(): string {
-        let r = Math.floor(Math.random() * scales.length);
-        return scales[r];
-    }
-
-    public static getRandomSong(): Song {
-        let r = Math.floor(Math.random() * songStart.length);
-        return songStart[r];
-    }
-
-    getMidiNotes(): number[] {
-        let scalesMapElement = majorScalesMap.get(this._scale)!!;
-        return this._song.halfTones.map((x) => 60 + scalesMapElement.offset + x);
-    }
-
-    getScaleRootMidiNote(): number {
-        return 60 + majorScalesMap.get(this._scale)!!.offset;
-    }
-
-    getStaveNotes(): StaveNote[] {
-        return this.getMidiNotes().map((x) => this.getStaveNoteForValue(x));
-    }
-
-    getSongDescription(): string {
-        return this._song.name + " in " + this._scale + " [" + this._song.scaleTones + "]";
-    }
-
-    private getStaveNoteForValue(val: number): StaveNote {
-        const n = notesDisambiguation.get(val % 12)!!;
-        const octave = Math.floor(val / 12) - 1;
-        const notes = n.filter((x) => this._scaleNotes.indexOf(x.what) !== -1)
-        if (notes.length != 1)
-            throw Error();
-        return new StaveNote({keys: [notes[0].noteLine + "/" + octave], duration: "q"});
-    }
-}

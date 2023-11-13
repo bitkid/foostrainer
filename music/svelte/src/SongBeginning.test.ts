@@ -1,14 +1,6 @@
 import {describe, expect, it} from 'vitest';
-import {
-    bundesHymneSong,
-    majorScalesMap,
-    ScaleHelper,
-    scales,
-    SongBeginning,
-    songStart,
-    usaSong,
-    vogelSong
-} from "$lib/MusicData";
+import {bundesHymneSong, majorScalesMap, ScaleHelper, scales, songStart, usaSong, vogelSong} from "$lib/MusicData";
+import {SongBeginning} from "$lib/SongBeginning";
 
 describe('song beginning', () => {
     it('knows root note', () => {
