@@ -1,10 +1,10 @@
 <script lang="ts">
     import {Formatter, RenderContext, Renderer, Stave, StaveNote, Voice} from "vexflow";
     import {onMount} from 'svelte';
-    import {bundesHymneSong, SongBeginning} from "$lib/MusicData";
+    import {SongBeginning} from "$lib/MusicData";
     import {player} from "../store";
 
-    const currentSong = new SongBeginning("treble", "Gb", bundesHymneSong);
+    let currentSong = SongBeginning.getRandom();
 
     const secret = "???";
 
@@ -78,7 +78,7 @@
 
     function changeSong() {
         divContent = secret;
-        currentSong.randomize();
+        currentSong = SongBeginning.getRandom();
         drawEmpty(undefined);
     }
 

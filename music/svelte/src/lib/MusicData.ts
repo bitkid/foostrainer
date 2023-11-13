@@ -130,8 +130,10 @@ export const songStart: Song[] = [bruderJakobSong, zylinderHutSong, vogelSong, b
     geigeSong, mozartSong, usaSong, wachetAufSong, kuckuckSong, vogelHochzeitSong];
 
 export class SongBeginning {
-    private _song: Song = vogelSong;
-    private _scaleNotes: string[];
+    private readonly _song: Song = vogelSong;
+    private readonly _scaleNotes: string[];
+    private readonly _clef: string;
+    private readonly _scale: string;
 
     constructor(clef: string, scale: string, song: Song) {
         this._clef = clef;
@@ -140,13 +142,14 @@ export class SongBeginning {
         this._scaleNotes = ScaleHelper.getNotesForScale(majorScalesMap.get(this._scale)!!);
     }
 
-    private _clef: string = "treble";
+    public static getRandom(): SongBeginning {
+        return new SongBeginning(SongBeginning.getRandomClef(), SongBeginning.getRandomScale(), SongBeginning.getRandomSong());
+    }
 
     get clef(): string {
         return this._clef;
     }
 
-    private _scale: string = "C#";
 
     get scale(): string {
         return this._scale;
@@ -168,13 +171,6 @@ export class SongBeginning {
     public static getRandomSong(): Song {
         let r = Math.floor(Math.random() * songStart.length);
         return songStart[r];
-    }
-
-    randomize() {
-        this._song = SongBeginning.getRandomSong();
-        this._scale = SongBeginning.getRandomScale();
-        this._clef = SongBeginning.getRandomClef();
-        this._scaleNotes = ScaleHelper.getNotesForScale(majorScalesMap.get(this._scale)!!)
     }
 
     getMidiNotes(): number[] {
