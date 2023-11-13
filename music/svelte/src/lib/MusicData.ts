@@ -20,22 +20,28 @@ export const notes: Note[] = [
     {name: "H", midiNote: 71}
 ];
 
-export const scales: string[] = ["C", "C#", "Db", "D", "Eb", "E", "F", "F#", "Gb", "G", "Ab", "A", "Bb", "B"];
+interface CanBe {
+    what: string,
+    with: string | undefined,
+    noteLine: string
+}
 
-export const notesNoSign: string[][] = [
-    ["C"],
-    ["C", "D"],
-    ["D"],
-    ["D", "E"],
-    ["E"],
-    ["F"],
-    ["F", "G"],
-    ["G"],
-    ["G", "A"],
-    ["A"],
-    ["A", "B"],
-    ["B"]
-];
+export const notesDisambiguation = new Map<number, CanBe[]>([
+    [0, [{noteLine: "B", what: "B#", with: "#"}, {noteLine: "C", what: "C", with: undefined}]],
+    [1, [{noteLine: "C", what: "C#", with: "#"}, {noteLine: "D", what: "Db", with: "b"}]],
+    [2, [{noteLine: "D", what: "D", with: undefined}]],
+    [3, [{noteLine: "D", what: "D#", with: "#"}, {noteLine: "E", what: "Eb", with: "b"}]],
+    [4, [{noteLine: "E", what: "E", with: undefined}, {noteLine: "F", what: "Fb", with: "b"}]],
+    [5, [{noteLine: "F", what: "F", with: undefined}, {noteLine: "E", what: "E#", with: "#"}]],
+    [6, [{noteLine: "F", what: "F#", with: "#"}, {noteLine: "G", what: "Gb", with: "b"}]],
+    [7, [{noteLine: "G", what: "G", with: undefined}]],
+    [8, [{noteLine: "G", what: "G#", with: "#"}, {noteLine: "A", what: "Ab", with: "b"}]],
+    [9, [{noteLine: "A", what: "A", with: undefined}]],
+    [10, [{noteLine: "A", what: "A#", with: "#"}, {noteLine: "B", what: "Bb", with: "b"}]],
+    [11, [{noteLine: "B", what: "B", with: undefined}, {noteLine: "C", what: "Cb", with: "b"}]],
+]);
+
+export const scales: string[] = ["C", "C#", "Db", "D", "Eb", "E", "F", "F#", "Gb", "G", "Ab", "A", "Bb", "B"];
 
 export interface Scale {
     offset: number
@@ -63,8 +69,40 @@ export const majorScalesMap: Map<string, Scale> = new Map<string, Scale>([
     ["B", {offset: 11, note: "B", enharmonic: "Cb", accidental: "#", numAccidental: 5}]
 ])
 
-export const majorCircleOf5thsRight: string[] = ["G", "D", "A", "E", "B", "F#", "C#"];
-export const majorCircleOf5thsLeft: string[] = ["F", "Bb", "Eb", "Ab", "Db", "Gb", "Cb"];
+export const majorCircleOf5thsSharp: string[] = ["F#", "C#", "G#", "D#", "A#", "E#", "B#"];
+export const majorCircleOf5thsFlat: string[] = ["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"];
+
+export const majorIntervals: number[] = [0, 2, 4, 5, 7, 9, 11];
+
+export class ScaleHelper {
+    public static getNotesForScale(scale: Scale): string[] {
+        let accidentals: string[];
+        if (scale.accidental == undefined) {
+            accidentals = [];
+        } else if (scale.accidental == "#") {
+            accidentals = majorCircleOf5thsSharp.slice(0, scale.numAccidental);
+        } else {
+            accidentals = majorCircleOf5thsFlat.slice(0, scale.numAccidental);
+        }
+        return majorIntervals.map((i: number): CanBe => {
+            const canBees = notesDisambiguation.get((i + scale.offset) % 12)!!;
+            if (accidentals.length == 0) {
+                const cb = canBees.filter((x) => x.with == undefined)
+                if (cb.length != 1)
+                    throw new Error()
+                return cb[0];
+            } else {
+                const cb = canBees.filter((x) => accidentals.indexOf(x.what) != -1)
+                if (cb.length == 1)
+                    return cb[0];
+                const cb1 = canBees.filter((x) => x.with === undefined)
+                if (cb1.length != 1)
+                    throw new Error()
+                return cb1[0];
+            }
+        }).map((c) => c.what);
+    }
+}
 
 export interface Song {
     scaleTones: number[],
@@ -93,11 +131,13 @@ export const songStart: Song[] = [bruderJakobSong, zylinderHutSong, vogelSong, b
 
 export class SongBeginning {
     private _song: Song = vogelSong;
+    private _scaleNotes: string[];
 
     constructor(clef: string, scale: string, song: Song) {
         this._clef = clef;
         this._scale = scale;
         this._song = song;
+        this._scaleNotes = ScaleHelper.getNotesForScale(majorScalesMap.get(this._scale)!!);
     }
 
     private _clef: string = "treble";
@@ -134,6 +174,7 @@ export class SongBeginning {
         this._song = SongBeginning.getRandomSong();
         this._scale = SongBeginning.getRandomScale();
         this._clef = SongBeginning.getRandomClef();
+        this._scaleNotes = ScaleHelper.getNotesForScale(majorScalesMap.get(this._scale)!!)
     }
 
     getMidiNotes(): number[] {
@@ -153,24 +194,12 @@ export class SongBeginning {
         return this._song.name + " in " + this._scale + " [" + this._song.scaleTones + "]";
     }
 
-    scaleContains(note: number) {
-        const scale = majorScalesMap.get(this._scale)!!;
-    }
-
     private getStaveNoteForValue(val: number): StaveNote {
-        let n = notesNoSign[val % 12];
-        let octave = Math.floor(val / 12) - 1;
-        let note;
-        if (n.length === 1) {
-            note = n[0];
-        } else {
-            let sign = majorScalesMap.get(this._scale)!!.accidental;
-            if (sign === "#") {
-                note = n[0];
-            } else {
-                note = n[1];
-            }
-        }
-        return new StaveNote({keys: [note + "/" + octave], duration: "q"});
+        const n = notesDisambiguation.get(val % 12)!!;
+        const octave = Math.floor(val / 12) - 1;
+        const notes = n.filter((x) => this._scaleNotes.indexOf(x.what) !== -1)
+        if (notes.length != 1)
+            throw Error();
+        return new StaveNote({keys: [notes[0].noteLine + "/" + octave], duration: "q"});
     }
 }
