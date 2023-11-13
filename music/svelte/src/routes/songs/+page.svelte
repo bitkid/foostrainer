@@ -84,12 +84,12 @@
 
 </script>
 
-<h1>SONGS</h1>
-<button disabled={playing} id="playSong" on:click={playSong} type="button">Play song</button>
-<button disabled={playing} id="playFirst" on:click={playFirst} type="button">Play first note</button>
-<button disabled={playing} id="playRoot" on:click={playRoot} type="button">Play root note</button>
-<button id="showSong" on:click={showSong} type="button">Show song</button>
-<button id="changeSong" on:click={changeSong} type="button">Change song</button>
+<h1>Liedanf&auml;nge erkennen</h1>
+<button disabled={playing} id="playSong" on:click={playSong} type="button">Abspielen</button>
+<button disabled={playing} id="playFirst" on:click={playFirst} type="button">Erster Ton</button>
+<button disabled={playing} id="playRoot" on:click={playRoot} type="button">Grundton</button>
+<button id="showSong" on:click={showSong} type="button">L&ouml;sung</button>
+<button id="changeSong" on:click={changeSong} type="button">Nochmal!</button>
 <br>
 <div id="song"><h2>{divContent}</h2></div>
 <br>
