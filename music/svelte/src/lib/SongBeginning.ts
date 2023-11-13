@@ -1,9 +1,9 @@
 import {StaveNote} from "vexflow";
 import type {Song} from "$lib/MusicData";
-import {majorScalesMap, notesDisambiguation, ScaleHelper, scales, songStart, vogelSong} from "$lib/MusicData";
+import {majorScalesMap, notesDisambiguation, ScaleHelper, scales, songStart} from "$lib/MusicData";
 
 export class SongBeginning {
-    private readonly _song: Song = vogelSong;
+    private readonly _song: Song;
     private readonly _scaleNotes: string[];
     private readonly _clef: string;
     private readonly _scale: string;
