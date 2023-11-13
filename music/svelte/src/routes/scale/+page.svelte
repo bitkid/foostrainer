@@ -35,6 +35,13 @@
         });
         const listOfStaveNotes = listOfNotes.map((x) => SongBeginning.getStaveNoteForValue(x, scaleNotes));
         listOfStaveNotes.push(SongBeginning.getStaveNoteForValue(listOfNotes[0] + 12, scaleNotes));
+
+        const color = "green";
+        listOfStaveNotes[2].setStyle({fillStyle: color, strokeStyle: color});
+        listOfStaveNotes[3].setStyle({fillStyle: color, strokeStyle: color});
+        listOfStaveNotes[6].setStyle({fillStyle: color, strokeStyle: color});
+        listOfStaveNotes[7].setStyle({fillStyle: color, strokeStyle: color});
+
         const voice = new Voice({num_beats: 8, beat_value: 4});
         voice.addTickables(listOfStaveNotes);
         new Formatter().joinVoices([voice]).format([voice], 400);
