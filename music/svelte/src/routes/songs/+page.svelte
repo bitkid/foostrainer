@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Formatter, RenderContext, Renderer, Stave, StaveNote, Voice} from "vexflow";
+    import {Formatter, RenderContext, Renderer, Stave, Voice} from "vexflow";
     import {onMount} from 'svelte';
     import {player} from "../store";
     import {RandomHelper} from "$lib/RandomHelper";
@@ -14,7 +14,7 @@
 
     onMount(() => {
         const renderer = new Renderer("output", Renderer.Backends.SVG);
-        renderer.resize(500, 150);
+        renderer.resize(500, 250);
         context = renderer.getContext();
         drawEmpty(undefined);
     });
@@ -32,13 +32,9 @@
     function drawNotePanel() {
         const stave = drawEmpty(currentSong.scale);
         let notes = currentSong.getStaveNotes();
-        const voice = new Voice({num_beats: 4, beat_value: 4});
+        const voice = new Voice({num_beats: notes.length, beat_value: 4});
         voice.addTickables(notes);
-        const nrOfRests = 4 - notes.length;
-        for (let i = 0; i < nrOfRests; i++) {
-            voice.addTickable(new StaveNote({keys: ["b/4"], duration: "qr"}));
-        }
-        new Formatter().joinVoices([voice]).format([voice], 350);
+        new Formatter().joinVoices([voice]).format([voice], notes.length * 90);
         voice.draw(context, stave);
     }
 
