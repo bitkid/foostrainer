@@ -18,6 +18,8 @@ describe("song beginning", () => {
     it("knows root note", () => {
         const s = new SongBeginning("treble", "C#", vogelSong)
         expect(s.getScaleRootMidiNote()).toBe(61)
+        const sb = new SongBeginning("bass", "C#", vogelSong)
+        expect(sb.getScaleRootMidiNote()).toBe(37)
     })
     it("knows clef", () => {
         const s = new SongBeginning("treble", "C#", vogelSong)
