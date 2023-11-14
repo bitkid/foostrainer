@@ -79,9 +79,9 @@
 </script>
 
 <h1>Skalen notieren</h1>
-<button id="showSong" on:click={showScale} type="button">L&oumlsung</button>
-<button id="changeSong" on:click={newMinorScale} type="button">Mollskala</button>
 <button id="changeSong" on:click={newMajorScale} type="button">Durskala</button>
+<button id="changeSong" on:click={newMinorScale} type="button">Mollskala</button>
+<button id="showSong" on:click={showScale} type="button">L&oumlsung</button>
 <br>
 <div id="song"><h2>{divContent}</h2></div>
 <br>
