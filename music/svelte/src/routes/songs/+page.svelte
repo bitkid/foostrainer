@@ -1,90 +1,98 @@
 <script lang="ts">
-    import {Formatter, RenderContext, Renderer, Stave, Voice} from "vexflow";
-    import {onMount} from 'svelte';
-    import {player} from "../store";
-    import {RandomHelper} from "$lib/RandomHelper";
+    import {Formatter, RenderContext, Renderer, Stave, Voice} from "vexflow"
+    import {onMount} from 'svelte'
+    import {player} from "../store"
+    import {RandomHelper} from "$lib/RandomHelper"
 
-    let currentSong = RandomHelper.getRandomSongBeginning();
+    let currentSong = RandomHelper.getRandomSongBeginning()
 
-    const secret = "???";
+    const secret = "???"
 
-    let context: RenderContext;
-    let playing: boolean = false;
+    let context: RenderContext
+    let playing: boolean = false
     let divContent = secret
 
     onMount(() => {
-        const renderer = new Renderer("output", Renderer.Backends.SVG);
-        renderer.resize(500, 250);
-        context = renderer.getContext();
-        drawEmpty(undefined);
-    });
+        const renderer = new Renderer("output", Renderer.Backends.SVG)
+        renderer.resize(500, 250)
+        context = renderer.getContext()
+        drawEmpty(undefined)
+    })
 
     function drawEmpty(signature: string | undefined): Stave {
-        context.clear();
-        const stave = new Stave(0, 0, 450);
-        stave.setClef(currentSong.clef).setTimeSignature("4/4");
+        context.clear()
+        const stave = new Stave(0, 0, 450)
+        stave.setClef(currentSong.clef).setTimeSignature("4/4")
         if (signature !== undefined)
-            stave.setKeySignature(signature);
-        stave.setContext(context).draw();
-        return stave;
+            stave.setKeySignature(signature)
+        stave.setContext(context).draw()
+        return stave
     }
 
     function drawNotePanel() {
-        const stave = drawEmpty(currentSong.scale);
-        let notes = currentSong.getStaveNotes();
-        const voice = new Voice({num_beats: notes.length, beat_value: 4});
-        voice.addTickables(notes);
-        new Formatter().joinVoices([voice]).format([voice], notes.length * 90);
-        voice.draw(context, stave);
+        const stave = drawEmpty(currentSong.scale)
+        let notes = currentSong.getStaveNotes()
+        const voice = new Voice({num_beats: notes.length, beat_value: 4})
+        voice.addTickables(notes)
+        new Formatter().joinVoices([voice]).format([voice], notes.length * 90)
+        voice.draw(context, stave)
     }
 
     function playSong() {
-        const notes = currentSong.getMidiNotes();
-        playing = true;
+        const notes = currentSong.getMidiNotes()
+        playing = true
         notes.forEach((value, index) => {
             if (index == notes.length - 1)
                 setTimeout($player.play.bind($player), index * 700, value, function () {
-                    playing = false;
-                });
+                    playing = false
+                })
             else
-                setTimeout($player.play.bind($player), index * 700, value);
-        });
+                setTimeout($player.play.bind($player), index * 700, value)
+        })
     }
 
     function playRoot() {
-        const note = currentSong.getScaleRootMidiNote();
-        playing = true;
+        const note = currentSong.getScaleRootMidiNote()
+        playing = true
         $player.play(note, function () {
             playing = false
-        });
+        })
     }
 
     function playFirst() {
-        const note = currentSong.getMidiNotes()[0];
-        playing = true;
+        const note = currentSong.getMidiNotes()[0]
+        playing = true
         $player.play(note, function () {
             playing = false
-        });
+        })
     }
 
     function showSong() {
-        drawNotePanel();
-        divContent = currentSong.getSongDescription();
+        drawNotePanel()
+        divContent = currentSong.getSongDescription()
     }
 
     function changeSong() {
-        divContent = secret;
-        currentSong = RandomHelper.getRandomSongBeginning();
-        drawEmpty(undefined);
+        divContent = secret
+        currentSong = RandomHelper.getRandomSongBeginning()
+        drawEmpty(undefined)
+    }
+
+    function playATone() {
+        playing = true
+        $player.play(81, function () {
+            playing = false
+        })
     }
 
 </script>
 
-<h1>Liedanf&auml;nge erkennen</h1>
+<h1>Liedanf&aumlnge erkennen</h1>
 <button disabled={playing} id="playSong" on:click={playSong} type="button">Abspielen</button>
 <button disabled={playing} id="playFirst" on:click={playFirst} type="button">Erster Ton</button>
 <button disabled={playing} id="playRoot" on:click={playRoot} type="button">Grundton</button>
-<button id="showSong" on:click={showSong} type="button">L&ouml;sung</button>
+<button disabled={playing} id="playRoot" on:click={playATone} type="button">Kammerton (A)</button>
+<button id="showSong" on:click={showSong} type="button">L&oumlsung</button>
 <button id="changeSong" on:click={changeSong} type="button">Nochmal!</button>
 <br>
 <div id="song"><h2>{divContent}</h2></div>

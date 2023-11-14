@@ -1,52 +1,60 @@
 <script lang="ts">
-    import {player} from "../store";
-    import type {Note} from "$lib/MusicData";
-    import {notes} from "$lib/MusicData";
-    import {RandomHelper} from "$lib/RandomHelper";
+    import {player} from "../store"
+    import type {Note} from "$lib/MusicData"
+    import {notes} from "$lib/MusicData"
+    import {RandomHelper} from "$lib/RandomHelper"
 
-    let currentNote: Note = RandomHelper.getRandomNote();
-    let playing: boolean = false;
+    let currentNote: Note = RandomHelper.getRandomNote()
+    let playing: boolean = false
 
-    let spree = 0;
-    let rank = "Blechohr";
-    let message: string = "Viel Gl&uuml;ck!";
+    let spree = 0
+    let rank = "Blechohr"
+    let message: string = "Viel Gl&uumlck!"
 
     function playSound() {
-        playing = true;
+        playing = true
         $player.play(currentNote.midiNote, function () {
-            playing = false;
+            playing = false
+        })
+    }
+
+    function playASound() {
+        playing = true
+        $player.play(81, function () {
+            playing = false
         })
     }
 
     function checkNote(note: Note) {
         if (currentNote.midiNote == note.midiNote) {
-            spree++;
-            message = "Nice!";
+            spree++
+            message = "Nice!"
             if (spree == 1) {
-                rank = "Fl&ouml;tentierchen"
+                rank = "Fl&oumltentierchen"
             } else if (spree == 2) {
                 rank = "Geigeneumel"
             } else if (spree == 3) {
-                rank = "Paukenpingu";
+                rank = "Paukenpingu"
             } else if (spree == 4) {
-                rank = "Ameisenmozart";
+                rank = "Ameisenmozart"
             } else if (spree == 5) {
-                rank = "Bachforelle";
+                rank = "Bachforelle"
             } else if (spree == 6) {
-                rank = "Gnubert";
+                rank = "Gnubert"
             } else {
-                rank = "Michael Jackson";
+                rank = "Michael Jackson"
             }
         } else {
-            spree = 0;
-            rank = "Blechohr";
-            message = "Oh nein! Es w&auml;hre ein " + currentNote.name + " gewesen. Probiers nochmal!";
+            spree = 0
+            rank = "Blechohr"
+            message = "Oh nein! Es w&aumlhre ein " + currentNote.name + " gewesen. Probiers nochmal!"
         }
-        currentNote = RandomHelper.getRandomNote();
+        currentNote = RandomHelper.getRandomNote()
     }
 </script>
 <h1>Stimmgabel Training</h1>
 <button disabled={playing} id="play" on:click={playSound} type="button">Ton abspielen</button>
+<button disabled={playing} id="play" on:click={playASound} type="button">Kammerton (A)</button>
 <br>
 <br>
 <div id="notes">

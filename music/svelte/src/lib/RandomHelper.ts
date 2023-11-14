@@ -1,32 +1,37 @@
-import type {Note, Song} from "$lib/MusicData";
-import {notes, scales, songStart} from "$lib/MusicData";
-import {SongBeginning} from "$lib/SongBeginning";
+import type {Note, Song} from "$lib/MusicData"
+import {majorScales, minorScales, notes, songStart} from "$lib/MusicData"
+import {SongBeginning} from "$lib/SongBeginning"
 
 export class RandomHelper {
     public static getRandomSongBeginning(): SongBeginning {
-        return new SongBeginning(RandomHelper.getRandomClef(), RandomHelper.getRandomScale(), RandomHelper.getRandomSong());
+        return new SongBeginning(RandomHelper.getRandomClef(), RandomHelper.getRandomMajorScale(), RandomHelper.getRandomSong())
     }
 
     public static getRandomClef(): string {
         if (Math.random() < 0.5) {
-            return "treble";
+            return "treble"
         } else {
-            return "bass";
+            return "bass"
         }
     }
 
-    public static getRandomScale(): string {
-        let r = Math.floor(Math.random() * scales.length);
-        return scales[r];
+    public static getRandomMajorScale(): string {
+        let r = Math.floor(Math.random() * majorScales.length)
+        return majorScales[r]
+    }
+
+    public static getRandomMinorScale(): string {
+        let r = Math.floor(Math.random() * minorScales.length)
+        return minorScales[r]
     }
 
     public static getRandomSong(): Song {
-        let r = Math.floor(Math.random() * songStart.length);
-        return songStart[r];
+        let r = Math.floor(Math.random() * songStart.length)
+        return songStart[r]
     }
 
     public static getRandomNote(): Note {
-        let r = Math.floor(Math.random() * notes.length);
-        return notes[r];
+        let r = Math.floor(Math.random() * notes.length)
+        return notes[r]
     }
 }
