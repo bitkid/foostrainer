@@ -30,7 +30,7 @@
             spree++
             message = "Nice!"
             if (spree == 1) {
-                rank = "Fl&oumltentierchen"
+                rank = "Fl&ouml;tentierchen"
             } else if (spree == 2) {
                 rank = "Geigeneumel"
             } else if (spree == 3) {
@@ -41,6 +41,18 @@
                 rank = "Bachforelle"
             } else if (spree == 6) {
                 rank = "Gnubert"
+            } else if (spree == 7) {
+                rank = "Trompetenb&auml;r"
+            } else if (spree == 8) {
+                rank = "Quietschente"
+            } else if (spree == 9) {
+                rank = "Hornbrille"
+            } else if (spree == 10) {
+                rank = "Cellobello"
+            } else if (spree == 11) {
+                rank = "Basspferdchen"
+            } else if (spree == 12) {
+                rank = "Gitarrenaal"
             } else {
                 rank = "Michael Jackson"
             }
