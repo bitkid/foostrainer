@@ -1,6 +1,4 @@
 <script lang="ts">
-    import {Formatter, RenderContext, Renderer, Stave, Voice} from "vexflow"
-    import {onMount} from 'svelte'
     import {SongBeginning} from "$lib/SongBeginning"
     import {
         majorIntervalHalfTone,
@@ -11,32 +9,17 @@
     } from "$lib/MusicData.js"
     import {ScaleHelper} from "$lib/ScaleHelper"
     import {RandomHelper} from "$lib/RandomHelper"
+    import NotePanel from "$lib/components/NotePanel.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import {onMount} from "svelte";
 
     let scale = majorScalesMap.get(RandomHelper.getRandomMajorScale())!!
     let divContent = scale.note + " " + scale.type
+    let notePanel: NotePanel
 
-    let context: RenderContext
-
-
-    onMount(() => {
-        const renderer = new Renderer("output", Renderer.Backends.SVG)
-        renderer.resize(600, 150)
-        context = renderer.getContext()
-        drawEmpty(undefined)
-    })
-
-    function drawEmpty(signature: string | undefined): Stave {
-        context.clear()
-        const stave = new Stave(0, 0, 550)
-        stave.setClef("treble").setTimeSignature("4/4")
-        if (signature !== undefined)
-            stave.setKeySignature(signature)
-        stave.setContext(context).draw()
-        return stave
-    }
+    onMount(() => notePanel.drawLines(undefined, "treble"))
 
     function showScale() {
-        const stave = drawEmpty(ScaleHelper.getKeySignature(scale))
         const scaleNotes = ScaleHelper.getNotes(scale)
         const listOfNotes = ScaleHelper.getIntervals(scale).map((i: number): number => {
             return 60 + scale.offset + i
@@ -58,31 +41,29 @@
             })
         }
 
-        const voice = new Voice({num_beats: 8, beat_value: 4})
-        voice.addTickables(listOfStaveNotes)
-        new Formatter().joinVoices([voice]).format([voice], 400)
-        voice.draw(context, stave)
+        notePanel.drawLinesAndNotes(listOfStaveNotes, "treble", ScaleHelper.getKeySignature(scale))
     }
 
     function newMajorScale() {
         scale = majorScalesMap.get(RandomHelper.getRandomMajorScale())!!
         divContent = scale.note + " " + scale.type
-        drawEmpty(undefined)
+        notePanel.drawLines(undefined, "treble")
     }
 
     function newMinorScale() {
         scale = minorScalesMap.get(RandomHelper.getRandomMinorScale())!!
         divContent = scale.note + " " + scale.type
-        drawEmpty(undefined)
+        notePanel.drawLines(undefined, "treble")
     }
 
 </script>
 
-<h1>Skalen notieren</h1>
-<button id="changeSong" on:click={newMajorScale} type="button">Durskala</button>
-<button id="changeSong" on:click={newMinorScale} type="button">Mollskala</button>
-<button id="showSong" on:click={showScale} type="button">L&oumlsung</button>
-<br>
-<div id="song"><h2>{divContent}</h2></div>
-<br>
-<div id="output"></div>
+<div>
+    <Button content="Durskala" on:click={newMajorScale}/>
+    <Button content="Mollskala" on:click={newMinorScale}/>
+    <Button content="L&oumlsung" on:click={showScale}/>
+</div>
+
+<div><h2>{divContent}</h2></div>
+
+<NotePanel bind:this={notePanel}/>

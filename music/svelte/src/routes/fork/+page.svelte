@@ -3,6 +3,7 @@
     import type {Note} from "$lib/MusicData"
     import {notes} from "$lib/MusicData"
     import {RandomHelper} from "$lib/RandomHelper"
+    import Button from "$lib/components/Button.svelte";
 
     let currentNote: Note = RandomHelper.getRandomNote()
     let playing: boolean = false
@@ -59,28 +60,27 @@
         } else {
             spree = 0
             rank = "Blechohr"
-            message = "Oh nein! Es w&aumlhre ein " + currentNote.name + " gewesen. Probiers nochmal!"
+            message = "Oh nein! Es w&auml;hre ein " + currentNote.name + " gewesen. Probiers nochmal!"
         }
         currentNote = RandomHelper.getRandomNote()
     }
 </script>
-<h1>Stimmgabel Training</h1>
-<button disabled={playing} id="play" on:click={playSound} type="button">Ton abspielen</button>
-<button disabled={playing} id="play" on:click={playASound} type="button">Kammerton (A)</button>
-<br>
-<br>
-<div id="notes">
+
+<div>
+    <Button content="Ton abspielen" disabled={playing} id="play" on:click={playSound}/>
+    <Button content="Kammerton (A)" disabled={playing} id="play" on:click={playASound}/>
+</div>
+<div>
     {#each notes as n}
-        <button on:click={() => checkNote(n)}>{n.name}</button>
+        <Button on:click={() => checkNote(n)} content={n.name}/>
     {/each}
 </div>
-<br>
-<div id="score">
+<div>
     <h3>Punkte: {spree}</h3>
 </div>
-<div id="score">
+<div>
     <h3>Rang: {@html rank}</h3>
 </div>
-<div id="message">
+<div>
     <h3>{@html message}</h3>
 </div>

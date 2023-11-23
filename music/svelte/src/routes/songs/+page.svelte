@@ -1,41 +1,22 @@
 <script lang="ts">
-    import {Formatter, RenderContext, Renderer, Stave, Voice} from "vexflow"
     import {onMount} from 'svelte'
     import {player} from "../store"
     import {RandomHelper} from "$lib/RandomHelper"
+    import Button from "$lib/components/Button.svelte"
+    import NotePanel from "$lib/components/NotePanel.svelte";
 
     let currentSong = RandomHelper.getRandomSongBeginning()
-
     const secret = "???"
 
-    let context: RenderContext
     let playing: boolean = false
     let divContent = secret
+    let notePanel: NotePanel
 
-    onMount(() => {
-        const renderer = new Renderer("output", Renderer.Backends.SVG)
-        renderer.resize(500, 250)
-        context = renderer.getContext()
-        drawEmpty(undefined)
-    })
-
-    function drawEmpty(signature: string | undefined): Stave {
-        context.clear()
-        const stave = new Stave(0, 0, 450)
-        stave.setClef(currentSong.clef).setTimeSignature("4/4")
-        if (signature !== undefined)
-            stave.setKeySignature(signature)
-        stave.setContext(context).draw()
-        return stave
-    }
+    onMount(() => notePanel.drawLines(undefined, currentSong.clef))
 
     function drawNotePanel() {
-        const stave = drawEmpty(currentSong.scale)
         let notes = currentSong.getStaveNotes()
-        const voice = new Voice({num_beats: notes.length, beat_value: 4})
-        voice.addTickables(notes)
-        new Formatter().joinVoices([voice]).format([voice], notes.length * 90)
-        voice.draw(context, stave)
+        notePanel.drawLinesAndNotes(notes, currentSong.clef, currentSong.scale)
     }
 
     function playSong() {
@@ -75,7 +56,7 @@
     function changeSong() {
         divContent = secret
         currentSong = RandomHelper.getRandomSongBeginning()
-        drawEmpty(undefined)
+        notePanel.drawLines(undefined, currentSong.clef)
     }
 
     function playATone() {
@@ -84,17 +65,13 @@
             playing = false
         })
     }
-
 </script>
 
-<h1>Liedanf&aumlnge erkennen</h1>
-<button disabled={playing} id="playSong" on:click={playSong} type="button">Abspielen</button>
-<button disabled={playing} id="playFirst" on:click={playFirst} type="button">Erster Ton</button>
-<button disabled={playing} id="playRoot" on:click={playRoot} type="button">Grundton</button>
-<button disabled={playing} id="playRoot" on:click={playATone} type="button">Kammerton (A)</button>
-<button id="showSong" on:click={showSong} type="button">L&oumlsung</button>
-<button id="changeSong" on:click={changeSong} type="button">Nochmal!</button>
-<br>
-<div id="song"><h2>{divContent}</h2></div>
-<br>
-<div id="output"></div>
+<Button content="Abspielen" disabled={playing} on:click={playSong}/>
+<Button content="Erster Ton" disabled={playing} on:click={playFirst}/>
+<Button content="Grundton" disabled={playing} on:click={playRoot}/>
+<Button content="Kammerton (A)" disabled={playing} on:click={playATone}/>
+<Button content="L&oumlsung" on:click={showSong}/>
+<Button content="Nochmal!" on:click={changeSong}/>
+<div><h2>{divContent}</h2></div>
+<NotePanel bind:this={notePanel}/>
