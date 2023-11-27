@@ -8,6 +8,8 @@
     titleMap.set("/fork", "Stimmgabel Training")
     titleMap.set("/songs", "Liedanf&aumlnge")
     titleMap.set("/scale", "Skalen")
+    titleMap.set("/chords", "Akkorde")
+    titleMap.set("/intervals", "Intervalle")
 
     let title: string = titleMap.get("/")!!
 

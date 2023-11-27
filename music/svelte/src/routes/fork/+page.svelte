@@ -66,11 +66,11 @@
     }
 </script>
 
-<div>
+<div class="m-5">
     <Button content="Ton abspielen" disabled={playing} id="play" on:click={playSound}/>
     <Button content="Kammerton (A)" disabled={playing} id="play" on:click={playASound}/>
 </div>
-<div>
+<div class="m-5">
     {#each notes as n}
         <Button on:click={() => checkNote(n)} content={n.name}/>
     {/each}

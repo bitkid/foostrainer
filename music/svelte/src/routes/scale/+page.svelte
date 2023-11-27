@@ -58,7 +58,7 @@
 
 </script>
 
-<div>
+<div class="m-5">
     <Button content="Durskala" on:click={newMajorScale}/>
     <Button content="Mollskala" on:click={newMinorScale}/>
     <Button content="L&oumlsung" on:click={showScale}/>

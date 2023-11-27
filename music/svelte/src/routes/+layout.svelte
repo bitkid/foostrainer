@@ -13,7 +13,7 @@
     })
 </script>
 
-<nav>
+<nav class="m-5">
     <ul class="flex">
         <li class="mr-6">
             <a class="text-blue-500 hover:text-blue-700" href="{base}/">Home</a>
@@ -26,6 +26,12 @@
         </li>
         <li class="mr-6">
             <a class="text-blue-500 hover:text-blue-700" href="{base}/scale">Skalen</a>
+        </li>
+        <li class="mr-6">
+            <a class="text-blue-500 hover:text-blue-700" href="{base}/chords">Akkorde</a>
+        </li>
+        <li class="mr-6">
+            <a class="text-blue-500 hover:text-blue-700" href="{base}/intervals">Intervalle</a>
         </li>
     </ul>
 </nav>

@@ -67,11 +67,13 @@
     }
 </script>
 
-<Button content="Abspielen" disabled={playing} on:click={playSong}/>
-<Button content="Erster Ton" disabled={playing} on:click={playFirst}/>
-<Button content="Grundton" disabled={playing} on:click={playRoot}/>
-<Button content="Kammerton (A)" disabled={playing} on:click={playATone}/>
-<Button content="L&oumlsung" on:click={showSong}/>
-<Button content="Nochmal!" on:click={changeSong}/>
+<div class="m-5">
+    <Button content="Abspielen" disabled={playing} on:click={playSong}/>
+    <Button content="Erster Ton" disabled={playing} on:click={playFirst}/>
+    <Button content="Grundton" disabled={playing} on:click={playRoot}/>
+    <Button content="Kammerton (A)" disabled={playing} on:click={playATone}/>
+    <Button content="L&oumlsung" on:click={showSong}/>
+    <Button content="Nochmal!" on:click={changeSong}/>
+</div>
 <div><h2>{divContent}</h2></div>
 <NotePanel bind:this={notePanel}/>
