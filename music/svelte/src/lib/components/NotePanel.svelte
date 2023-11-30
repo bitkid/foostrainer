@@ -13,7 +13,7 @@
         notePanel.drawLines(signature, clef)
     }
 
-    export function drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string) {
+    export function drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string | undefined) {
         notePanel.drawLinesAndNotes(notes, clef, keySignature)
     }
 </script>

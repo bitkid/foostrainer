@@ -64,6 +64,14 @@
         }
         currentNote = RandomHelper.getRandomNote()
     }
+
+    function getNoteName(note: Note): string {
+        if (note.alternate === undefined) {
+            return note.name
+        } else {
+            return note.name + " - " + note.alternate
+        }
+    }
 </script>
 
 <div class="m-5">
@@ -72,7 +80,7 @@
 </div>
 <div class="m-5">
     {#each notes as n}
-        <Button on:click={() => checkNote(n)} content={n.name}/>
+        <Button on:click={() => checkNote(n)} content={getNoteName(n)}/>
     {/each}
 </div>
 <div>

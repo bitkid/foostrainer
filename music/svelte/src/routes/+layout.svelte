@@ -36,7 +36,7 @@
     </ul>
 </nav>
 
-<div class="container">
+<div>
     <PageTitle/>
     <slot/>
 </div>

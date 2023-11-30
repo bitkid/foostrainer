@@ -24,7 +24,7 @@ export class NotePanel {
         return stave
     }
 
-    drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string) {
+    drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string | undefined) {
         const stave = this.drawLines(keySignature, clef)
         const voice = new Voice({num_beats: notes.length, beat_value: 4})
         voice.addTickables(notes)

@@ -1,21 +1,22 @@
 export interface Note {
     name: string
     midiNote: number
+    alternate: string | undefined
 }
 
 export const notes: Note[] = [
-    {name: "C", midiNote: 60},
-    {name: "C# (Db)", midiNote: 61},
-    {name: "D", midiNote: 62},
-    {name: "D# (Eb)", midiNote: 63},
-    {name: "E", midiNote: 64},
-    {name: "F", midiNote: 65},
-    {name: "F# (Gb)", midiNote: 66},
-    {name: "G", midiNote: 67},
-    {name: "G# (Ab)", midiNote: 68},
-    {name: "A", midiNote: 69},
-    {name: "A# (B)", midiNote: 70},
-    {name: "H", midiNote: 71}
+    {name: "C", midiNote: 60, alternate: "B#"},
+    {name: "C#", midiNote: 61, alternate: "Db"},
+    {name: "D", midiNote: 62, alternate: undefined},
+    {name: "D#", midiNote: 63, alternate: "Eb"},
+    {name: "E", midiNote: 64, alternate: "Fb"},
+    {name: "F", midiNote: 65, alternate: "E#"},
+    {name: "F#", midiNote: 66, alternate: "Gb"},
+    {name: "G", midiNote: 67, alternate: undefined},
+    {name: "G#", midiNote: 68, alternate: "Ab"},
+    {name: "A", midiNote: 69, alternate: undefined},
+    {name: "A#", midiNote: 70, alternate: "Bb"},
+    {name: "B", midiNote: 71, alternate: "Cb"}
 ]
 
 export interface PotentialNote {
@@ -23,21 +24,22 @@ export interface PotentialNote {
     with: string | undefined,
     noteLine: string,
     direction: number
+    offset: number
 }
 
 export const notesDisambiguation = new Map<number, PotentialNote[]>([
-    [0, [{noteLine: "B", what: "B#", with: "#", direction: -1}, {noteLine: "C", what: "C", with: undefined, direction: 0}]],
-    [1, [{noteLine: "C", what: "C#", with: "#", direction: 0}, {noteLine: "D", what: "Db", with: "b", direction: 0}]],
-    [2, [{noteLine: "D", what: "D", with: undefined, direction: 0}]],
-    [3, [{noteLine: "D", what: "D#", with: "#", direction: 0}, {noteLine: "E", what: "Eb", with: "b", direction: 0}]],
-    [4, [{noteLine: "E", what: "E", with: undefined, direction: 0}, {noteLine: "F", what: "Fb", with: "b", direction: 0}]],
-    [5, [{noteLine: "F", what: "F", with: undefined, direction: 0}, {noteLine: "E", what: "E#", with: "#", direction: 0}]],
-    [6, [{noteLine: "F", what: "F#", with: "#", direction: 0}, {noteLine: "G", what: "Gb", with: "b", direction: 0}]],
-    [7, [{noteLine: "G", what: "G", with: undefined, direction: 0}]],
-    [8, [{noteLine: "G", what: "G#", with: "#", direction: 0}, {noteLine: "A", what: "Ab", with: "b", direction: 0}]],
-    [9, [{noteLine: "A", what: "A", with: undefined, direction: 0}]],
-    [10, [{noteLine: "A", what: "A#", with: "#", direction: 0}, {noteLine: "B", what: "Bb", with: "b", direction: 0}]],
-    [11, [{noteLine: "B", what: "B", with: undefined, direction: 0}, {noteLine: "C", what: "Cb", with: "b", direction: 1}]],
+    [0, [{noteLine: "B", what: "B#", with: "#", direction: -1, offset: 0}, {noteLine: "C", what: "C", with: undefined, direction: 0, offset: 0}]],
+    [1, [{noteLine: "C", what: "C#", with: "#", direction: 0, offset: 1}, {noteLine: "D", what: "Db", with: "b", direction: 0, offset: 1}]],
+    [2, [{noteLine: "D", what: "D", with: undefined, direction: 0, offset: 2}]],
+    [3, [{noteLine: "D", what: "D#", with: "#", direction: 0, offset: 3}, {noteLine: "E", what: "Eb", with: "b", direction: 0, offset: 3}]],
+    [4, [{noteLine: "E", what: "E", with: undefined, direction: 0, offset: 4}, {noteLine: "F", what: "Fb", with: "b", direction: 0, offset: 4}]],
+    [5, [{noteLine: "F", what: "F", with: undefined, direction: 0, offset: 5}, {noteLine: "E", what: "E#", with: "#", direction: 0, offset: 5}]],
+    [6, [{noteLine: "F", what: "F#", with: "#", direction: 0, offset: 6}, {noteLine: "G", what: "Gb", with: "b", direction: 0, offset: 6}]],
+    [7, [{noteLine: "G", what: "G", with: undefined, direction: 0, offset: 7}]],
+    [8, [{noteLine: "G", what: "G#", with: "#", direction: 0, offset: 8}, {noteLine: "A", what: "Ab", with: "b", direction: 0, offset: 8}]],
+    [9, [{noteLine: "A", what: "A", with: undefined, direction: 0, offset: 9}]],
+    [10, [{noteLine: "A", what: "A#", with: "#", direction: 0, offset: 10}, {noteLine: "B", what: "Bb", with: "b", direction: 0, offset: 10}]],
+    [11, [{noteLine: "B", what: "B", with: undefined, direction: 0, offset: 11}, {noteLine: "C", what: "Cb", with: "b", direction: 1, offset: 11}]],
 ])
 
 export interface Scale {
@@ -48,6 +50,27 @@ export interface Scale {
     numAccidental: number,
     type: ScaleType
 }
+
+export interface Interval {
+    name: string,
+    pure: boolean,
+    halfSteps: number
+}
+
+export const intervals: Interval[] = [
+    {name: "Kleine Sekund", pure: false, halfSteps: 1},
+    {name: "Gro&szlig;e Sekund", pure: false, halfSteps: 2},
+    {name: "Kleine Terz", pure: false, halfSteps: 3},
+    {name: "Gro&szlig;e Terz", pure: false, halfSteps: 4},
+    {name: "Quarte", pure: true, halfSteps: 5},
+    {name: "Tritonus", pure: false, halfSteps: 6},
+    {name: "Quinte", pure: true, halfSteps: 7},
+    {name: "Kleine Sexte", pure: false, halfSteps: 8},
+    {name: "Gro&szlig;e Sexte", pure: false, halfSteps: 9},
+    {name: "Kleine Septime", pure: false, halfSteps: 10},
+    {name: "Gro&szlig;e Septime", pure: false, halfSteps: 11},
+    {name: "Oktave", pure: true, halfSteps: 12},
+]
 
 export enum ScaleType {
     MAJOR = "major", MINOR = "minor"
