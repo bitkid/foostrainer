@@ -21,6 +21,7 @@ export class NotePanel {
         if (signature !== undefined)
             stave.setKeySignature(signature)
         stave.setContext(this._context).draw()
+        stave.setNoteStartX(stave.getNoteStartX() + 30)
         return stave
     }
 
