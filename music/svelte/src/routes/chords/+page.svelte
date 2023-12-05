@@ -1,18 +1,32 @@
 <script lang="ts">
     import NotePanel from "$lib/components/NotePanel.svelte";
     import {onMount} from "svelte";
-    import Button from "$lib/components/Button.svelte";
+    import {Button, Column, Grid, Row} from "carbon-components-svelte";
+    import {FaceActivated, FaceDissatisfied, FaceNeutral, FaceSatisfied, View} from "carbon-icons-svelte";
 
     let notePanel: NotePanel
 
     onMount(() => notePanel.drawLines(undefined, "treble"))
 </script>
 
-<div class="m-5">
-    <Button content="Dur"/>
-    <Button content="Moll"/>
-    <Button content="Vermindert"/>
-    <Button content="&Uuml;berm&auml;&szlig;ig"/>
-    <Button content="L&ouml;sung"/>
-</div>
-<NotePanel bind:this={notePanel}/>
+<Grid>
+    <Row>
+        <Column>
+            <p>Work in progress!</p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <Button icon={FaceSatisfied} iconDescription="Dur"/>
+            <Button icon={FaceNeutral} iconDescription="Moll"/>
+            <Button icon={FaceDissatisfied} iconDescription="Vermindert"/>
+            <Button icon={FaceActivated} iconDescription="Übermäßig"/>
+            <Button icon={View} iconDescription="L&ouml;sung"/>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <NotePanel bind:this={notePanel}/>
+        </Column>
+    </Row>
+</Grid>

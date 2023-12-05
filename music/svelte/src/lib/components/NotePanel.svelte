@@ -18,4 +18,4 @@
     }
 </script>
 
-<div bind:this={noteDiv} class="m-5"></div>
+<div bind:this={noteDiv}></div>

@@ -2,11 +2,12 @@
     import {onMount} from 'svelte'
     import {player} from "../store"
     import {RandomHelper} from "$lib/RandomHelper"
-    import Button from "$lib/components/Button.svelte"
-    import NotePanel from "$lib/components/NotePanel.svelte";
+    import NotePanel from "$lib/components/NotePanel.svelte"
+    import {Button, Column, Grid, Row} from "carbon-components-svelte"
+    import {Number_1, PartitionCollection, Play, Restart, View} from "carbon-icons-svelte"
 
     let currentSong = RandomHelper.getRandomSongBeginning()
-    const secret = "???"
+    const secret = ""
 
     let playing: boolean = false
     let divContent = secret
@@ -67,13 +68,45 @@
     }
 </script>
 
-<div class="m-5">
-    <Button content="Abspielen" disabled={playing} on:click={playSong}/>
-    <Button content="Erster Ton" disabled={playing} on:click={playFirst}/>
-    <Button content="Grundton" disabled={playing} on:click={playRoot}/>
-    <Button content="Kammerton (A)" disabled={playing} on:click={playATone}/>
-    <Button content="L&oumlsung" on:click={showSong}/>
-    <Button content="Nochmal!" on:click={changeSong}/>
-</div>
-<div><h2>{divContent}</h2></div>
-<NotePanel bind:this={notePanel}/>
+<Grid>
+    <Row>
+        <Column>
+            <p>
+                Für diese Übung brauchst Du ein Notenheft. Drücke den
+                <Play/>
+                Knopf und höre Dir den Liedanfang an.
+                Mit dem
+                <Number_1/>
+                Knopf kannst Du den ersten Ton immer wieder abspielen und mit Hilfe der Stimmgabel, dem
+                <PartitionCollection/>
+                Knopf, die Tonart bestimmen.
+                Schreibe die Vorzeichen der Tonart in dein Heft und notiere den Liedanfang. Achte dabei darauf, ob
+                die Noten im Bass- oder Violionschlüssel stehen.
+                <View/>
+                zeigt Dir Lösung und mit
+                <Restart/>
+                kannst Du es
+                mit einem anderen Liedanfang in einer anderen Tonart nochmal probieren.
+            </p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <Button disabled={playing} icon={Play} iconDescription="Abspielen" on:click={playSong}/>
+            <Button disabled={playing} icon={Number_1} iconDescription="Erste Note abspielen" on:click={playFirst}/>
+            <Button disabled={playing} icon={PartitionCollection} iconDescription="Kammerton (A)" on:click={playATone}/>
+            <Button icon={View} iconDescription="L&ouml;sung" on:click={showSong}/>
+            <Button icon={Restart} iconDescription="Nochmal!" on:click={changeSong}/>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <NotePanel bind:this={notePanel}/>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <h2>{divContent}</h2>
+        </Column>
+    </Row>
+</Grid>

@@ -1,52 +1,68 @@
 <script lang="ts">
     import {onMount} from 'svelte'
-    import {base} from "$app/paths"
     import {SynthWrapper} from "$lib/SynthWrapper"
     import {player} from "./store"
     // @ts-ignore
     import WebAudioTinySynth from 'webaudio-tinysynth'
-    import "../app.css"
     import PageTitle from "$lib/components/PageTitle.svelte";
+    import "carbon-components-svelte/css/all.css";
+    import {base} from "$app/paths"
+    import {
+        Column,
+        Content,
+        Grid,
+        Header,
+        HeaderNav,
+        HeaderNavItem,
+        Row,
+        SideNav,
+        SideNavItems,
+        SideNavLink,
+        SkipToContent
+    } from "carbon-components-svelte"
 
+    let isSideNavOpen = false
     onMount(() => {
         player.set(new SynthWrapper(new WebAudioTinySynth({quality: 1, useReverb: 0})))
+        document.documentElement.setAttribute("theme", "g10")
     })
 </script>
 
-<nav class="m-5">
-    <ul class="flex">
-        <li class="mr-6">
-            <a class="text-blue-500 hover:text-blue-700" href="{base}/">Home</a>
-        </li>
-        <li class="mr-6">
-            <a class="text-blue-500 hover:text-blue-700" href="{base}/fork">Stimmgabel</a>
-        </li>
-        <li class="mr-6">
-            <a class="text-blue-500 hover:text-blue-700" href="{base}/songs">Liedanf&aumlnge</a>
-        </li>
-        <li class="mr-6">
-            <a class="text-blue-500 hover:text-blue-700" href="{base}/scale">Skalen</a>
-        </li>
-        <li class="mr-6">
-            <a class="text-blue-500 hover:text-blue-700" href="{base}/chords">Akkorde</a>
-        </li>
-        <li class="mr-6">
-            <a class="text-blue-500 hover:text-blue-700" href="{base}/intervals">Intervalle</a>
-        </li>
-    </ul>
-</nav>
+<Header bind:isSideNavOpen company="MATHILDA" expandedByDefault={false} platformName="Music">
+    <svelte:fragment slot="skip-to-content">
+        <SkipToContent/>
+    </svelte:fragment>
+    <HeaderNav>
+        <HeaderNavItem href="{base}/" text="Home"/>
+        <HeaderNavItem href="{base}/fork" text="Stimmgabel"/>
+        <HeaderNavItem href="{base}/songs" text="Liedanf&auml;nge"/>
+        <HeaderNavItem href="{base}/scale" text="Skalen"/>
+        <HeaderNavItem href="{base}/intervals" text="Intervalle"/>
+        <HeaderNavItem href="{base}/chords" text="Akkorde"/>
+    </HeaderNav>
+    <SideNav bind:isOpen={isSideNavOpen}>
+        <SideNavItems>
+            <SideNavLink href="{base}/" text="Home"/>
+            <SideNavLink href="{base}/fork" text="Stimmgabel"/>
+            <SideNavLink href="{base}/songs" text="Liedanf&auml;nge"/>
+            <SideNavLink href="{base}/scale" text="Skalen"/>
+            <SideNavLink href="{base}/intervals" text="Intervalle"/>
+            <SideNavLink href="{base}/chords" text="Akkorde"/>
+        </SideNavItems>
+    </SideNav>
+</Header>
 
-<div>
-    <PageTitle/>
-    <slot/>
-</div>
-
-<style lang="postcss">
-    :global(h2) {
-        @apply text-center text-xl py-10;
-    }
-
-    :global(h3) {
-        @apply text-center text-xl py-3;
-    }
-</style>
+<Content>
+    <Grid padding>
+        <Row>
+            <Column>
+                <PageTitle/>
+            </Column>
+        </Row>
+        <Row>
+            <Column>
+                <slot/>
+            </Column>
+        </Row>
+    </Grid>
+</Content>

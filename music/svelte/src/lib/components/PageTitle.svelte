@@ -19,4 +19,4 @@
     }
 </script>
 
-<h1 class="text-center text-2xl py-10">{@html title}</h1>
+<h1>{@html title}</h1>

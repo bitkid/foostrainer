@@ -3,7 +3,8 @@
     import type {Note} from "$lib/MusicData"
     import {notes} from "$lib/MusicData"
     import {RandomHelper} from "$lib/RandomHelper"
-    import Button from "$lib/components/Button.svelte";
+    import {Button, Column, Grid, Row} from "carbon-components-svelte";
+    import {PartitionCollection, Play} from "carbon-icons-svelte";
 
     let currentNote: Note = RandomHelper.getRandomNote()
     let playing: boolean = false
@@ -74,21 +75,48 @@
     }
 </script>
 
-<div class="m-5">
-    <Button content="Ton abspielen" disabled={playing} id="play" on:click={playSound}/>
-    <Button content="Kammerton (A)" disabled={playing} id="play" on:click={playASound}/>
-</div>
-<div class="m-5">
-    {#each notes as n}
-        <Button on:click={() => checkNote(n)} content={getNoteName(n)}/>
-    {/each}
-</div>
-<div>
-    <h3>Punkte: {spree}</h3>
-</div>
-<div>
-    <h3>Rang: {@html rank}</h3>
-</div>
-<div>
-    <h3>{@html message}</h3>
-</div>
+<Grid>
+    <Row>
+        <Column>
+            <p>
+                Ein kleines Spielchen! Drücke den
+                <Play/>
+                Knopf und höre Dir den Ton an. Bestimme mit Hilfe der
+                Stimmgabel, dem
+                <PartitionCollection/>
+                Knopf, den Ton und drücke den jeweiligen Knopf. Für jeden richtig
+                erratenen Ton gibts einen Punkt und Du steigst immer weiter auf in deinem Rang! Aber Vorsicht - liegst
+                Du falsch musst Du wieder von vorne beginnen!
+            </p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <p>{@html message}</p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <Button disabled={playing} icon={Play} iconDescription="Abspielen" on:click={playSound}/>
+            <Button disabled={playing} icon={PartitionCollection} iconDescription="Kammerton (A)"
+                    on:click={playASound}/>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            {#each notes as n}
+                <Button kind="ghost" iconDescription="Abspielen" on:click={() => {checkNote(n)}}>{n.name}</Button>
+            {/each}
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <p>Punkte: {spree}</p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <p>Rang: {@html rank}</p>
+        </Column>
+    </Row>
+</Grid>

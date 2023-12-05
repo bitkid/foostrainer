@@ -10,8 +10,9 @@
     import {ScaleHelper} from "$lib/ScaleHelper"
     import {RandomHelper} from "$lib/RandomHelper"
     import NotePanel from "$lib/components/NotePanel.svelte";
-    import Button from "$lib/components/Button.svelte";
     import {onMount} from "svelte";
+    import {Button, Column, Grid, Row} from "carbon-components-svelte";
+    import {FaceNeutral, FaceSatisfied, View} from "carbon-icons-svelte";
 
     let scale = majorScalesMap.get(RandomHelper.getRandomMajorScale())!!
     let divContent = scale.note + " " + scale.type
@@ -58,12 +59,34 @@
 
 </script>
 
-<div class="m-5">
-    <Button content="Durskala" on:click={newMajorScale}/>
-    <Button content="Mollskala" on:click={newMinorScale}/>
-    <Button content="L&oumlsung" on:click={showScale}/>
-</div>
-
-<div><h2>{divContent}</h2></div>
-
-<NotePanel bind:this={notePanel}/>
+<Grid>
+    <Row>
+        <Column>
+            <p>
+                Für diese Übung brauchst Du ein Notenheft. Drücke den
+                <FaceSatisfied/>
+                Knopf um eine Durskala auszuwählen oder den
+                <FaceNeutral/>
+                um eine Mollskala auszuwählen. Schreibe die Vorzeichen der Skala in Dein Heft und notiere alle Noten
+                der Skala inklusive der Oktave. Markiere dabei die Halbtonschritte.
+                <View/>
+                zeigt Dir Lösung.
+            </p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <Button icon={FaceSatisfied} iconDescription="Durskala" on:click={newMajorScale}/>
+            <Button icon={FaceNeutral} iconDescription="Mollskala" on:click={newMinorScale}/>
+            <Button icon={View} iconDescription="L&ouml;sung" on:click={showScale}/>
+        </Column>
+    </Row>
+    <Row>
+        <Column><h2>{divContent}</h2></Column>
+    </Row>
+    <Row>
+        <Column>
+            <NotePanel bind:this={notePanel}/>
+        </Column>
+    </Row>
+</Grid>

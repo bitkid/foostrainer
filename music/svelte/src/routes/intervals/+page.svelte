@@ -1,15 +1,16 @@
 <script lang="ts">
     import NotePanel from "$lib/components/NotePanel.svelte";
     import {onMount} from "svelte";
-    import Button from "$lib/components/Button.svelte";
     import {RandomHelper} from "$lib/RandomHelper";
     import {player} from "../store";
     import {Accidental, StaveNote} from "vexflow";
     import type {PotentialNote} from "$lib/MusicData";
     import {notesDisambiguation} from "$lib/MusicData";
     import {SongBeginning} from "$lib/SongBeginning";
+    import {Button, Column, Grid, Row} from "carbon-components-svelte";
+    import {Play, Restart, View} from "carbon-icons-svelte";
 
-    const msg = "Finde das gesuchte Interval!"
+    const msg = ""
 
     let notePanel: NotePanel
     let divContent = msg
@@ -83,10 +84,37 @@
     }
 </script>
 
-<div class="m-5">
-    <Button content="Interval abspielen" disabled={playing} on:click={playInterval}/>
-    <Button content="L&ouml;sung" on:click={showSolution}/>
-    <Button content="Neues Interval" on:click={newInterval}/>
-</div>
-<div><h2>{@html divContent}</h2></div>
-<NotePanel bind:this={notePanel}/>
+<Grid>
+    <Row>
+        <Column>
+            <p>
+                Für diese Übung brauchst Du ein Notenheft. Drücke den
+                <Play/>
+                Knopf und höre Dir das Interval an.
+                Hat der erste Ton bereits ein Vorzeichen notiere den zweiten Ton mit dem gleichen Vorzeichen.
+                <View/>
+                zeigt Dir Lösung und mit
+                <Restart/>
+                kannst Du es mit einem anderen Interval nochmal probieren.
+            </p>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <Button disabled={playing} icon={Play} iconDescription="Abspielen" on:click={playInterval}/>
+            <Button icon={View} iconDescription="L&ouml;sung" on:click={showSolution}/>
+            <Button icon={Restart} iconDescription="Nochmal!" on:click={newInterval}/>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <NotePanel bind:this={notePanel}/>
+        </Column>
+    </Row>
+    <Row>
+        <Column>
+            <h2>{@html divContent}</h2>
+        </Column>
+    </Row>
+</Grid>
+
