@@ -57,7 +57,7 @@ export class SongBeginning {
     }
 
     getSongDescription(): string {
-        return this._song.name + " in " + this._scale + " [" + this._song.scaleTones + "]"
+        return this._song.name + " [" + this._song.scaleTones + "] in " + this._scale
     }
 
     private getStaveNoteForValue(val: number): StaveNote {

@@ -7,19 +7,7 @@
     import PageTitle from "$lib/components/PageTitle.svelte";
     import "carbon-components-svelte/css/all.css";
     import {base} from "$app/paths"
-    import {
-        Column,
-        Content,
-        Grid,
-        Header,
-        HeaderNav,
-        HeaderNavItem,
-        Row,
-        SideNav,
-        SideNavItems,
-        SideNavLink,
-        SkipToContent
-    } from "carbon-components-svelte"
+    import {Content, Header, HeaderNav, HeaderNavItem, SideNav, SideNavItems, SideNavLink, SkipToContent} from "carbon-components-svelte"
 
     let isSideNavOpen = false
     onMount(() => {
@@ -38,7 +26,6 @@
         <HeaderNavItem href="{base}/songs" text="Liedanf&auml;nge"/>
         <HeaderNavItem href="{base}/scale" text="Skalen"/>
         <HeaderNavItem href="{base}/intervals" text="Intervalle"/>
-        <HeaderNavItem href="{base}/chords" text="Akkorde"/>
     </HeaderNav>
     <SideNav bind:isOpen={isSideNavOpen}>
         <SideNavItems>
@@ -47,22 +34,11 @@
             <SideNavLink href="{base}/songs" text="Liedanf&auml;nge"/>
             <SideNavLink href="{base}/scale" text="Skalen"/>
             <SideNavLink href="{base}/intervals" text="Intervalle"/>
-            <SideNavLink href="{base}/chords" text="Akkorde"/>
         </SideNavItems>
     </SideNav>
 </Header>
 
 <Content>
-    <Grid padding>
-        <Row>
-            <Column>
-                <PageTitle/>
-            </Column>
-        </Row>
-        <Row>
-            <Column>
-                <slot/>
-            </Column>
-        </Row>
-    </Grid>
+    <PageTitle/>
+    <slot/>
 </Content>

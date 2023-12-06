@@ -21,7 +21,7 @@ export class NotePanel {
         if (signature !== undefined)
             stave.setKeySignature(signature)
         stave.setContext(this._context).draw()
-        stave.setNoteStartX(stave.getNoteStartX() + 30)
+        stave.setNoteStartX(stave.getNoteStartX() + 1)
         return stave
     }
 
@@ -29,7 +29,7 @@ export class NotePanel {
         const stave = this.drawLines(keySignature, clef)
         const voice = new Voice({num_beats: notes.length, beat_value: 4})
         voice.addTickables(notes)
-        new Formatter().joinVoices([voice]).format([voice], notes.length * 90)
+        new Formatter().joinVoices([voice]).format([voice], this._element.clientWidth - 16 - stave.getNoteStartX())
         voice.draw(this._context, stave)
     }
 }

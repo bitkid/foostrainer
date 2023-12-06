@@ -7,10 +7,10 @@
     import type {PotentialNote} from "$lib/MusicData";
     import {notesDisambiguation} from "$lib/MusicData";
     import {SongBeginning} from "$lib/SongBeginning";
-    import {Button, Column, Grid, Row} from "carbon-components-svelte";
+    import {Accordion, AccordionItem, Button} from "carbon-components-svelte";
     import {Play, Restart, View} from "carbon-icons-svelte";
 
-    const msg = ""
+    const msg = "Welches Interval wird gesucht?"
 
     let notePanel: NotePanel
     let divContent = msg
@@ -83,38 +83,26 @@
         divContent = msg
     }
 </script>
-
-<Grid>
-    <Row>
-        <Column>
-            <p>
-                Für diese Übung brauchst Du ein Notenheft. Drücke den
-                <Play/>
-                Knopf und höre Dir das Interval an.
-                Hat der erste Ton bereits ein Vorzeichen notiere den zweiten Ton mit dem gleichen Vorzeichen.
-                <View/>
-                zeigt Dir Lösung und mit
-                <Restart/>
-                kannst Du es mit einem anderen Interval nochmal probieren.
-            </p>
-        </Column>
-    </Row>
-    <Row>
-        <Column>
-            <Button disabled={playing} icon={Play} iconDescription="Abspielen" on:click={playInterval}/>
-            <Button icon={View} iconDescription="L&ouml;sung" on:click={showSolution}/>
-            <Button icon={Restart} iconDescription="Nochmal!" on:click={newInterval}/>
-        </Column>
-    </Row>
-    <Row>
-        <Column>
-            <NotePanel bind:this={notePanel}/>
-        </Column>
-    </Row>
-    <Row>
-        <Column>
-            <h2>{@html divContent}</h2>
-        </Column>
-    </Row>
-</Grid>
-
+<Accordion>
+    <AccordionItem title="Beschreibung der Übung">
+        <p>
+            Für diese Übung brauchst Du ein Notenheft. Drücke den
+            <Play/>
+            Knopf und höre Dir das Interval an.
+            Hat der erste Ton bereits ein Vorzeichen notiere den zweiten Ton mit dem gleichen Vorzeichen.
+            <View/>
+            zeigt Dir Lösung und mit
+            <Restart/>
+            kannst Du es mit einem anderen Interval nochmal probieren.
+        </p>
+    </AccordionItem>
+    <AccordionItem open title="Übung">
+        <Button disabled={playing} icon={Play} on:click={playInterval}>Play</Button>
+        <Button icon={Restart} on:click={newInterval}>Neues Interval</Button>
+    </AccordionItem>
+    <AccordionItem open title="Lösung">
+        <Button icon={View} on:click={showSolution}>Anzeigen</Button>
+        <h4 style="text-align: center; margin: 1rem">{@html divContent}</h4>
+        <NotePanel bind:this={notePanel}/>
+    </AccordionItem>
+</Accordion>

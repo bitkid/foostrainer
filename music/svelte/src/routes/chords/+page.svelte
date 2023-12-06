@@ -12,7 +12,7 @@
 <Grid>
     <Row>
         <Column>
-            <p>Work in progress!</p>
+            <p>Noch in Arbeit!</p>
         </Column>
     </Row>
     <Row>

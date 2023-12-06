@@ -5,11 +5,11 @@
     const titleMap = new Map<string, string>()
     titleMap.set("/", "Home")
     titleMap.set(base, "Home")
-    titleMap.set("/fork", "Stimmgabel Training")
-    titleMap.set("/songs", "Liedanf&aumlnge")
-    titleMap.set("/scale", "Skalen")
-    titleMap.set("/chords", "Akkorde")
-    titleMap.set("/intervals", "Intervalle")
+    titleMap.set("/fork", "Stimmgabel Spiel")
+    titleMap.set("/songs", "Liedanfänge notieren")
+    titleMap.set("/scale", "Skalen notieren")
+    titleMap.set("/chords", "Akkorde notieren")
+    titleMap.set("/intervals", "Intervalle erkennen")
 
     let title: string = titleMap.get("/")!!
 
@@ -19,4 +19,4 @@
     }
 </script>
 
-<h1>{@html title}</h1>
+<h2>{@html title}</h2>

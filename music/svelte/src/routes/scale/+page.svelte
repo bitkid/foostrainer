@@ -1,17 +1,11 @@
 <script lang="ts">
     import {SongBeginning} from "$lib/SongBeginning"
-    import {
-        majorIntervalHalfTone,
-        majorScalesMap,
-        minorIntervalHalfTone,
-        minorScalesMap,
-        ScaleType
-    } from "$lib/MusicData.js"
+    import {majorIntervalHalfTone, majorScalesMap, minorIntervalHalfTone, minorScalesMap, ScaleType} from "$lib/MusicData.js"
     import {ScaleHelper} from "$lib/ScaleHelper"
     import {RandomHelper} from "$lib/RandomHelper"
     import NotePanel from "$lib/components/NotePanel.svelte";
     import {onMount} from "svelte";
-    import {Button, Column, Grid, Row} from "carbon-components-svelte";
+    import {Accordion, AccordionItem, Button} from "carbon-components-svelte";
     import {FaceNeutral, FaceSatisfied, View} from "carbon-icons-svelte";
 
     let scale = majorScalesMap.get(RandomHelper.getRandomMajorScale())!!
@@ -59,34 +53,27 @@
 
 </script>
 
-<Grid>
-    <Row>
-        <Column>
-            <p>
-                Für diese Übung brauchst Du ein Notenheft. Drücke den
-                <FaceSatisfied/>
-                Knopf um eine Durskala auszuwählen oder den
-                <FaceNeutral/>
-                um eine Mollskala auszuwählen. Schreibe die Vorzeichen der Skala in Dein Heft und notiere alle Noten
-                der Skala inklusive der Oktave. Markiere dabei die Halbtonschritte.
-                <View/>
-                zeigt Dir Lösung.
-            </p>
-        </Column>
-    </Row>
-    <Row>
-        <Column>
-            <Button icon={FaceSatisfied} iconDescription="Durskala" on:click={newMajorScale}/>
-            <Button icon={FaceNeutral} iconDescription="Mollskala" on:click={newMinorScale}/>
-            <Button icon={View} iconDescription="L&ouml;sung" on:click={showScale}/>
-        </Column>
-    </Row>
-    <Row>
-        <Column><h2>{divContent}</h2></Column>
-    </Row>
-    <Row>
-        <Column>
-            <NotePanel bind:this={notePanel}/>
-        </Column>
-    </Row>
-</Grid>
+<Accordion>
+    <AccordionItem title="Beschreibung der Übung">
+        <p>
+            Für diese Übung brauchst Du ein Notenheft. Drücke den Dur
+            <FaceSatisfied/>
+            Knopf um eine Durskala auszuwählen oder den
+            Moll
+            <FaceNeutral/>
+            Knopf um eine Mollskala auszuwählen. Schreibe die Vorzeichen der Skala in Dein Heft und notiere alle Noten
+            der Skala inklusive der Oktave. Markiere dabei die Halbtonschritte. Lösung
+            <View/>
+            zeigt Dir die richtige Lösung.
+        </p>
+    </AccordionItem>
+    <AccordionItem open title="Übung">
+        <Button icon={FaceSatisfied} on:click={newMajorScale} size="small">Dur</Button>
+        <Button icon={FaceNeutral} on:click={newMinorScale} size="small">Moll</Button>
+        <h4 style="text-align: center; margin: 1rem">{divContent}</h4>
+    </AccordionItem>
+    <AccordionItem open title="Lösung">
+        <Button icon={View} kind="tertiary" on:click={showScale} size="small">Anzeigen</Button>
+        <NotePanel bind:this={notePanel}/>
+    </AccordionItem>
+</Accordion>
