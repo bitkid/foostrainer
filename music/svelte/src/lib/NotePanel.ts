@@ -25,11 +25,13 @@ export class NotePanel {
         return stave
     }
 
-    drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string | undefined) {
+    drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string | undefined, maxDistance: number = 100) {
         const stave = this.drawLines(keySignature, clef)
         const voice = new Voice({num_beats: notes.length, beat_value: 4})
         voice.addTickables(notes)
-        new Formatter().joinVoices([voice]).format([voice], this._element.clientWidth - 16 - stave.getNoteStartX())
+        const maxJustifyWidth = this._element.clientWidth - 16 - stave.getNoteStartX();
+        const width = Math.min(notes.length * maxDistance, maxJustifyWidth)
+        new Formatter().joinVoices([voice]).format([voice], width)
         voice.draw(this._context, stave)
     }
 }

@@ -3,7 +3,7 @@
     import type {Note} from "$lib/MusicData"
     import {notes} from "$lib/MusicData"
     import {RandomHelper} from "$lib/RandomHelper"
-    import {Accordion, AccordionItem, Button} from "carbon-components-svelte";
+    import {Button, Column, Row} from "carbon-components-svelte";
     import {PartitionCollection, Play} from "carbon-icons-svelte";
 
     let currentNote: Note = RandomHelper.getRandomNote()
@@ -67,29 +67,37 @@
     }
 </script>
 
-<Accordion>
-    <AccordionItem title="Beschreibung">
+<Row>
+    <Column>
         <p>
-            Drücke den Play
+            Drücke den Abspielen
             <Play/>
-            Knopf und höre Dir den Ton an. Bestimme mit Hilfe der Stimmgabel
+            Knopf und höre Dir die Note an. Bestimme mit Hilfe der Stimmgabel
             <PartitionCollection/>
-            den Ton und drücke den jeweiligen Knopf mit dem richtigen Ton. Für jeden richtig erratenen Ton gibts einen Punkt und Du steigst immer weiter auf in
+            um welche Note es sich handelt und drücke den jeweiligen Knopf mit der richtigen Note. Für jede richtig
+            erratene Note gibt es einen
+            Punkt und Du steigst immer weiter auf in
             deinem Rang! Aber Vorsicht - liegst Du falsch musst Du wieder von vorne beginnen!
         </p>
-    </AccordionItem>
-    <AccordionItem open title="Status">
-        <h4 style="text-align: center; margin: 1rem">{@html message}</h4>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <h4 style="text-align: center">{@html message}</h4>
         <p style="text-align: center;">Punkte: {spree}</p>
         <p style="text-align: center;">Rang: {@html rank}</p>
-    </AccordionItem>
-    <AccordionItem open title="Spiel">
-        <Button disabled={playing} icon={Play} on:click={playSound}>Play</Button>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Button disabled={playing} icon={Play} on:click={playSound}>Abspielen</Button>
         <Button disabled={playing} icon={PartitionCollection} on:click={playASound}>Stimmgabel</Button>
-        <div style="margin-top: 1rem">
-            {#each notes as n}
-                <Button kind="tertiary" iconDescription="Abspielen" on:click={() => {checkNote(n)}}>{n.name}</Button>
-            {/each}
-        </div>
-    </AccordionItem>
-</Accordion>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        {#each notes as n}
+            <Button kind="tertiary" size="small" on:click={() => {checkNote(n)}}>{n.name}</Button>
+        {/each}
+    </Column>
+</Row>

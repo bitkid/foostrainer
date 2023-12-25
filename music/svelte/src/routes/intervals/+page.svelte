@@ -7,7 +7,7 @@
     import type {PotentialNote} from "$lib/MusicData";
     import {notesDisambiguation} from "$lib/MusicData";
     import {SongBeginning} from "$lib/SongBeginning";
-    import {Accordion, AccordionItem, Button} from "carbon-components-svelte";
+    import {Button, Column, Row} from "carbon-components-svelte";
     import {Play, Restart, View} from "carbon-icons-svelte";
 
     const msg = "Welches Interval wird gesucht?"
@@ -83,8 +83,8 @@
         divContent = msg
     }
 </script>
-<Accordion>
-    <AccordionItem title="Beschreibung der Übung">
+<Row>
+    <Column>
         <p>
             Für diese Übung brauchst Du ein Notenheft. Drücke den
             <Play/>
@@ -95,14 +95,22 @@
             <Restart/>
             kannst Du es mit einem anderen Interval nochmal probieren.
         </p>
-    </AccordionItem>
-    <AccordionItem open title="Übung">
+    </Column>
+</Row>
+<Row>
+    <Column>
         <Button disabled={playing} icon={Play} on:click={playInterval}>Play</Button>
         <Button icon={Restart} on:click={newInterval}>Neues Interval</Button>
-    </AccordionItem>
-    <AccordionItem open title="Lösung">
-        <Button icon={View} on:click={showSolution}>Anzeigen</Button>
-        <h4 style="text-align: center; margin: 1rem">{@html divContent}</h4>
-        <NotePanel bind:this={notePanel}/>
-    </AccordionItem>
-</Accordion>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Button icon={View} kind="tertiary" on:click={showSolution}>Anzeigen</Button>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <h4 style="text-align: center">{@html divContent}</h4>
+    </Column>
+</Row>
+<NotePanel bind:this={notePanel}/>

@@ -7,7 +7,19 @@
     import PageTitle from "$lib/components/PageTitle.svelte";
     import "carbon-components-svelte/css/all.css";
     import {base} from "$app/paths"
-    import {Content, Header, HeaderNav, HeaderNavItem, SideNav, SideNavItems, SideNavLink, SkipToContent} from "carbon-components-svelte"
+    import {
+        Column,
+        Content,
+        Grid,
+        Header,
+        HeaderNav,
+        HeaderNavItem,
+        Row,
+        SideNav,
+        SideNavItems,
+        SideNavLink,
+        SkipToContent
+    } from "carbon-components-svelte"
 
     let isSideNavOpen = false
     onMount(() => {
@@ -38,7 +50,13 @@
     </SideNav>
 </Header>
 
-<Content>
-    <PageTitle/>
-    <slot/>
+<Content style="padding: 0">
+    <Grid fullWidth padding>
+        <Row>
+            <Column>
+                <PageTitle/>
+            </Column>
+        </Row>
+        <slot/>
+    </Grid>
 </Content>

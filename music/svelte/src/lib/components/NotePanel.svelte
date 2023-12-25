@@ -2,6 +2,7 @@
     import {onMount} from 'svelte'
     import {NotePanel} from "$lib/NotePanel";
     import type {StaveNote} from "vexflow";
+    import {Column, Row} from "carbon-components-svelte";
 
     let noteDiv: HTMLDivElement
     let notePanel: NotePanel
@@ -18,4 +19,8 @@
     }
 </script>
 
-<div bind:this={noteDiv}></div>
+<Row>
+    <Column>
+        <div bind:this={noteDiv}></div>
+    </Column>
+</Row>
