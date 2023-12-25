@@ -6,9 +6,9 @@
     import {Accidental, StaveNote} from "vexflow";
     import type {PotentialNote} from "$lib/MusicData";
     import {notesDisambiguation} from "$lib/MusicData";
-    import {SongBeginning} from "$lib/SongBeginning";
     import {Button, Column, Row} from "carbon-components-svelte";
     import {Play, Restart, View} from "carbon-icons-svelte";
+    import {ScaleHelper} from "$lib/ScaleHelper";
 
     const msg = "Welches Interval wird gesucht?"
 
@@ -71,8 +71,8 @@
             }
         }
         notePanel.drawLinesAndNotes([
-            getStaveNote(rootNote, SongBeginning.getOctaveForValue(60 + rootNote.offset)),
-            getStaveNote(potentialNote, SongBeginning.getOctaveForValue(relNote))
+            getStaveNote(rootNote, ScaleHelper.getOctaveForValue(60 + rootNote.offset)),
+            getStaveNote(potentialNote, ScaleHelper.getOctaveForValue(relNote))
         ], "treble", undefined)
     }
 

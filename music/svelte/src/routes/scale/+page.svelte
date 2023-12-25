@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {SongBeginning} from "$lib/SongBeginning"
     import {
         majorIntervalHalfTone,
         majorScalesMap,
@@ -27,7 +26,7 @@
         })
 
         listOfNotes.push(listOfNotes[0] + 12)
-        const listOfStaveNotes = listOfNotes.map((x) => SongBeginning.getStaveNoteForValue(x, scaleNotes))
+        const listOfStaveNotes = listOfNotes.map((x) => ScaleHelper.getStaveNoteForValue(x, scaleNotes))
 
         const color = "red"
         if (scale.type == ScaleType.MINOR) {

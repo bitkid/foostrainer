@@ -1,6 +1,6 @@
-import {StaveNote} from "vexflow"
+import type {StaveNote} from "vexflow"
 import type {Song} from "$lib/MusicData"
-import {majorScalesMap, notesDisambiguation} from "$lib/MusicData"
+import {majorScalesMap} from "$lib/MusicData"
 import {ScaleHelper} from "$lib/ScaleHelper"
 
 export class SongBeginning {
@@ -29,20 +29,6 @@ export class SongBeginning {
         return this._scale
     }
 
-    public static getStaveNoteForValue(val: number, scaleNotes: string[], clef: string = "treble"): StaveNote {
-        const n = notesDisambiguation.get(val % 12)!!
-        const notes = n.filter((x) => scaleNotes.indexOf(x.what) !== -1)
-        if (notes.length != 1)
-            throw Error("there should be exactly one note matching but found" + notes)
-        const actualNote = notes[0]
-        const octave = SongBeginning.getOctaveForValue(val + actualNote.direction)
-        return new StaveNote({keys: [actualNote.noteLine + "/" + octave], duration: "q", clef: clef})
-    }
-
-    public static getOctaveForValue(val: number): number {
-        return Math.floor(val / 12) - 1
-    }
-
     getMidiNotes(): number[] {
         let scalesMapElement = majorScalesMap.get(this._scale)!!
         return this._song.halfTones.map((x) => this._clefOffset + scalesMapElement.offset + x)
@@ -61,6 +47,6 @@ export class SongBeginning {
     }
 
     private getStaveNoteForValue(val: number): StaveNote {
-        return SongBeginning.getStaveNoteForValue(val, this._scaleNotes, this._clef)
+        return ScaleHelper.getStaveNoteForValue(val, this._scaleNotes, this._clef)
     }
 }

@@ -33,14 +33,6 @@
         })
     }
 
-    function playRoot() {
-        const note = currentSong.getScaleRootMidiNote()
-        playing = true
-        $player.play(note, function () {
-            playing = false
-        })
-    }
-
     function playFirst() {
         const note = currentSong.getMidiNotes()[0]
         playing = true

@@ -1,5 +1,6 @@
 import type {PotentialNote, Scale} from "$lib/MusicData"
 import {allFlats, allSharps, majorIntervals, minorIntervals, notesDisambiguation, ScaleType} from "$lib/MusicData"
+import {StaveNote} from "vexflow";
 
 export class ScaleHelper {
 
@@ -48,5 +49,19 @@ export class ScaleHelper {
                 return cb1[0]
             }
         }).map((c) => c.what)
+    }
+
+    public static getStaveNoteForValue(val: number, scaleNotes: string[], clef: string = "treble"): StaveNote {
+        const n = notesDisambiguation.get(val % 12)!!
+        const notes = n.filter((x) => scaleNotes.indexOf(x.what) !== -1)
+        if (notes.length != 1)
+            throw Error("there should be exactly one note matching but found" + notes)
+        const actualNote = notes[0]
+        const octave = ScaleHelper.getOctaveForValue(val + actualNote.direction)
+        return new StaveNote({keys: [actualNote.noteLine + "/" + octave], duration: "q", clef: clef})
+    }
+
+    public static getOctaveForValue(val: number): number {
+        return Math.floor(val / 12) - 1
     }
 }
