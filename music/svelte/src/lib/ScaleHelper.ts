@@ -20,6 +20,21 @@ export class ScaleHelper {
         }
     }
 
+    public static getScaleName(scale: Scale): string {
+        if (scale.german)
+            return scale.german
+        return scale.note
+    }
+
+    public static getFullScaleName(scale: Scale): string {
+        const name = this.getScaleName(scale)
+        if (scale.type == ScaleType.MINOR) {
+            return name + "m"
+        } else {
+            return name
+        }
+    }
+
     public static getNotes(scale: Scale) {
         let accidentals: string[]
         if (scale.accidental == undefined) {

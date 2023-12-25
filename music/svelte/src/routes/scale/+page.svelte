@@ -1,11 +1,5 @@
 <script lang="ts">
-    import {
-        majorIntervalHalfTone,
-        majorScalesMap,
-        minorIntervalHalfTone,
-        minorScalesMap,
-        ScaleType
-    } from "$lib/MusicData.js"
+    import {majorIntervalHalfTone, minorIntervalHalfTone, ScaleType} from "$lib/MusicData.js"
     import {ScaleHelper} from "$lib/ScaleHelper"
     import {RandomHelper} from "$lib/RandomHelper"
     import NotePanel from "$lib/components/NotePanel.svelte";
@@ -13,8 +7,8 @@
     import {Button, Column, Row} from "carbon-components-svelte";
     import {FaceNeutral, FaceSatisfied, View} from "carbon-icons-svelte";
 
-    let scale = majorScalesMap.get(RandomHelper.getRandomMajorScale())!!
-    let divContent = "Gesuchte Skala: " + scale.note + " " + scale.type
+    let scale = RandomHelper.getRandomMajorScale()
+    let divContent = "Gesuchte Skala: " + ScaleHelper.getFullScaleName(scale)
     let notePanel: NotePanel
 
     onMount(() => notePanel.drawLines(undefined, "treble"))
@@ -41,18 +35,18 @@
             })
         }
 
-        notePanel.drawLinesAndNotes(listOfStaveNotes, "treble", ScaleHelper.getKeySignature(scale))
+        notePanel.drawLinesAndNotes(listOfStaveNotes, "treble", scale)
     }
 
     function newMajorScale() {
-        scale = majorScalesMap.get(RandomHelper.getRandomMajorScale())!!
-        divContent = scale.note + " " + scale.type
+        scale = RandomHelper.getRandomMajorScale()!!
+        divContent = "Gesuchte Skala: " + ScaleHelper.getFullScaleName(scale)
         notePanel.drawLines(undefined, "treble")
     }
 
     function newMinorScale() {
-        scale = minorScalesMap.get(RandomHelper.getRandomMinorScale())!!
-        divContent = scale.note + " " + scale.type
+        scale = RandomHelper.getRandomMinorScale()!!
+        divContent = "Gesuchte Skala: " + ScaleHelper.getFullScaleName(scale)
         notePanel.drawLines(undefined, "treble")
     }
 

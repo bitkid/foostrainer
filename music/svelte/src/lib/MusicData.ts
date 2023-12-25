@@ -2,6 +2,7 @@ export interface Note {
     name: string
     midiNote: number
     alternate: string | undefined
+    german?: string
 }
 
 export const notes: Note[] = [
@@ -16,7 +17,7 @@ export const notes: Note[] = [
     {name: "G#", midiNote: 68, alternate: "Ab"},
     {name: "A", midiNote: 69, alternate: undefined},
     {name: "A#", midiNote: 70, alternate: "Bb"},
-    {name: "B", midiNote: 71, alternate: "Cb"}
+    {name: "B", midiNote: 71, alternate: "Cb", german: "H"}
 ]
 
 export interface PotentialNote {
@@ -48,7 +49,8 @@ export interface Scale {
     enharmonic: string | undefined
     accidental: string | undefined,
     numAccidental: number,
-    type: ScaleType
+    type: ScaleType,
+    german?: string
 }
 
 export interface Interval {
@@ -89,13 +91,26 @@ export const majorScalesMap: Map<string, Scale> = new Map<string, Scale>([
     ["G", {offset: 7, note: "G", enharmonic: undefined, accidental: "#", numAccidental: 1, type: ScaleType.MAJOR}],
     ["Ab", {offset: 8, note: "Ab", enharmonic: undefined, accidental: "b", numAccidental: 4, type: ScaleType.MAJOR}],
     ["A", {offset: 9, note: "A", enharmonic: undefined, accidental: "#", numAccidental: 3, type: ScaleType.MAJOR}],
-    ["Bb", {offset: 10, note: "Bb", enharmonic: undefined, accidental: "b", numAccidental: 2, type: ScaleType.MAJOR}],
+    ["Bb", {
+        offset: 10,
+        note: "Bb",
+        enharmonic: undefined,
+        accidental: "b",
+        numAccidental: 2,
+        type: ScaleType.MAJOR,
+        german: "B"
+    }],
     ["Cb", {offset: 11, note: "Cb", enharmonic: "B", accidental: "b", numAccidental: 7, type: ScaleType.MAJOR}],
-    ["B", {offset: 11, note: "B", enharmonic: "Cb", accidental: "#", numAccidental: 5, type: ScaleType.MAJOR}]
+    ["B", {
+        offset: 11,
+        note: "B",
+        enharmonic: "Cb",
+        accidental: "#",
+        numAccidental: 5,
+        type: ScaleType.MAJOR,
+        german: "H"
+    }]
 ])
-
-export const majorScales: string[] = ["C", "C#", "Db", "D", "Eb", "E", "F", "F#", "Gb", "G", "Ab", "A", "Bb", "B", "Cb"]
-
 
 export const minorScalesMap: Map<string, Scale> = new Map<string, Scale>([
     ["A", {offset: 9, note: "A", enharmonic: undefined, accidental: undefined, numAccidental: 0, type: ScaleType.MINOR}],
@@ -103,18 +118,31 @@ export const minorScalesMap: Map<string, Scale> = new Map<string, Scale>([
     ["G", {offset: 7, note: "G", enharmonic: undefined, accidental: "b", numAccidental: 2, type: ScaleType.MINOR}],
     ["C", {offset: 0, note: "C", enharmonic: undefined, accidental: "b", numAccidental: 3, type: ScaleType.MINOR}],
     ["F", {offset: 5, note: "F", enharmonic: undefined, accidental: "b", numAccidental: 4, type: ScaleType.MINOR}],
-    ["Bb", {offset: 10, note: "Bb", enharmonic: undefined, accidental: "b", numAccidental: 5, type: ScaleType.MINOR}],
+    ["Bb", {
+        offset: 10,
+        note: "Bb",
+        enharmonic: undefined,
+        accidental: "b",
+        numAccidental: 5,
+        type: ScaleType.MINOR,
+        german: "B"
+    }],
     ["Eb", {offset: 3, note: "Eb", enharmonic: "D#", accidental: "b", numAccidental: 6, type: ScaleType.MINOR}],
     ["D#", {offset: 3, note: "D#", enharmonic: "Eb", accidental: "#", numAccidental: 6, type: ScaleType.MINOR}],
     ["G#", {offset: 8, note: "G#", enharmonic: undefined, accidental: "#", numAccidental: 5, type: ScaleType.MINOR}],
     ["C#", {offset: 1, note: "C#", enharmonic: undefined, accidental: "#", numAccidental: 4, type: ScaleType.MINOR}],
     ["F#", {offset: 6, note: "F#", enharmonic: undefined, accidental: "#", numAccidental: 3, type: ScaleType.MINOR}],
-    ["B", {offset: 11, note: "B", enharmonic: undefined, accidental: "#", numAccidental: 2, type: ScaleType.MINOR}],
+    ["B", {
+        offset: 11,
+        note: "B",
+        enharmonic: undefined,
+        accidental: "#",
+        numAccidental: 2,
+        type: ScaleType.MINOR,
+        german: "H"
+    }],
     ["E", {offset: 4, note: "E", enharmonic: undefined, accidental: "#", numAccidental: 1, type: ScaleType.MINOR}]
 ])
-
-export const minorScales: string[] = ["A", "D", "G", "C", "F", "Bb", "Eb", "D#", "G#", "C#", "F#", "B", "E"]
-
 
 export const allSharps: string[] = ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]
 export const allFlats: string[] = ["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]

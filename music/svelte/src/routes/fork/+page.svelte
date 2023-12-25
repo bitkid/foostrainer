@@ -27,6 +27,12 @@
         })
     }
 
+    function noteName(note: Note): string {
+        if (note.german)
+            return note.german
+        return note.name
+    }
+
     function checkNote(note: Note) {
         if (currentNote.midiNote == note.midiNote) {
             spree++
@@ -97,7 +103,7 @@
 <Row>
     <Column>
         {#each notes as n}
-            <Button kind="tertiary" size="small" on:click={() => {checkNote(n)}}>{n.name}</Button>
+            <Button kind="tertiary" size="small" on:click={() => {checkNote(n)}}>{noteName(n)}</Button>
         {/each}
     </Column>
 </Row>

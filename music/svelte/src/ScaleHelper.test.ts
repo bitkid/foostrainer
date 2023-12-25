@@ -38,4 +38,8 @@ describe("ScaleHelper", () => {
         })
         expect(listOfNotes.map((x) => x.keys[0])).toStrictEqual(["C/4", "D/4", "E/4", "F/4", "G/4", "A/4", "B/4"])
     })
+    it("knows full scale name", () => {
+        expect(ScaleHelper.getFullScaleName(minorScalesMap.get("B")!!)).toEqual("Hm")
+        expect(ScaleHelper.getFullScaleName(minorScalesMap.get("Bb")!!)).toEqual("Bm")
+    })
 })

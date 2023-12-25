@@ -1,5 +1,16 @@
-import type {Interval, Note, PotentialNote, Song} from "$lib/MusicData"
-import {intervals, majorScales, minorScales, notes, notesDisambiguation, songStart} from "$lib/MusicData"
+import {
+    type Interval,
+    intervals,
+    majorScalesMap,
+    minorScalesMap,
+    type Note,
+    notes,
+    notesDisambiguation,
+    type PotentialNote,
+    type Scale,
+    type Song,
+    songStart
+} from "$lib/MusicData"
 import {SongBeginning} from "$lib/SongBeginning"
 
 export class RandomHelper {
@@ -15,9 +26,10 @@ export class RandomHelper {
         }
     }
 
-    public static getRandomMajorScale(): string {
-        let r = Math.floor(Math.random() * majorScales.length)
-        return majorScales[r]
+    public static getRandomMajorScale(): Scale {
+        const k = Array.from(majorScalesMap.keys())
+        const r = Math.floor(Math.random() * k.length)
+        return majorScalesMap.get(k[r])!!
     }
 
     public static getRandomInterval(): Interval {
@@ -25,9 +37,10 @@ export class RandomHelper {
         return intervals[r]
     }
 
-    public static getRandomMinorScale(): string {
-        let r = Math.floor(Math.random() * minorScales.length)
-        return minorScales[r]
+    public static getRandomMinorScale(): Scale {
+        const k = Array.from(minorScalesMap.keys())
+        const r = Math.floor(Math.random() * k.length)
+        return minorScalesMap.get(k[r])!!
     }
 
     public static getRandomSong(): Song {

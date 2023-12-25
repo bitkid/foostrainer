@@ -1,20 +1,19 @@
 import type {StaveNote} from "vexflow"
-import type {Song} from "$lib/MusicData"
-import {majorScalesMap} from "$lib/MusicData"
+import type {Scale, Song} from "$lib/MusicData"
 import {ScaleHelper} from "$lib/ScaleHelper"
 
 export class SongBeginning {
     private readonly _song: Song
     private readonly _scaleNotes: string[]
     private readonly _clef: string
-    private readonly _scale: string
+    private readonly _scale: Scale
     private readonly _clefOffset: number
 
-    constructor(clef: string, scale: string, song: Song) {
+    constructor(clef: string, scale: Scale, song: Song) {
         this._clef = clef
         this._scale = scale
         this._song = song
-        this._scaleNotes = ScaleHelper.getNotes(majorScalesMap.get(this._scale)!!)
+        this._scaleNotes = ScaleHelper.getNotes(this._scale)
         if (this._clef == "treble")
             this._clefOffset = 60
         else
@@ -25,17 +24,16 @@ export class SongBeginning {
         return this._clef
     }
 
-    get scale(): string {
+    get scale(): Scale {
         return this._scale
     }
 
     getMidiNotes(): number[] {
-        let scalesMapElement = majorScalesMap.get(this._scale)!!
-        return this._song.halfTones.map((x) => this._clefOffset + scalesMapElement.offset + x)
+        return this._song.halfTones.map((x) => this._clefOffset + this._scale.offset + x)
     }
 
     getScaleRootMidiNote(): number {
-        return this._clefOffset + majorScalesMap.get(this._scale)!!.offset
+        return this._clefOffset + this._scale.offset
     }
 
     getStaveNotes(): StaveNote[] {
@@ -43,7 +41,7 @@ export class SongBeginning {
     }
 
     getSongDescription(): string {
-        return this._song.name + " [" + this._song.scaleTones + "] in " + this._scale
+        return this._song.name + " [" + this._song.scaleTones + "] in " + ScaleHelper.getScaleName(this._scale)
     }
 
     private getStaveNoteForValue(val: number): StaveNote {

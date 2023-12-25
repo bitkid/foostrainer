@@ -3,6 +3,7 @@
     import {NotePanel} from "$lib/NotePanel";
     import type {StaveNote} from "vexflow";
     import {Column, Row} from "carbon-components-svelte";
+    import type {Scale} from "$lib/MusicData";
 
     let noteDiv: HTMLDivElement
     let notePanel: NotePanel
@@ -10,11 +11,11 @@
         notePanel = new NotePanel(noteDiv)
     })
 
-    export function drawLines(signature: string | undefined, clef: string | undefined) {
+    export function drawLines(signature?: Scale, clef?: string) {
         notePanel.drawLines(signature, clef)
     }
 
-    export function drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature: string | undefined) {
+    export function drawLinesAndNotes(notes: StaveNote[], clef: string, keySignature?: Scale) {
         notePanel.drawLinesAndNotes(notes, clef, keySignature)
     }
 </script>
