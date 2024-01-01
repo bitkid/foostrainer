@@ -1,53 +1,106 @@
 export interface Note {
     name: string
     midiNote: number
-    alternate: string | undefined
+    alternate?: string
     german?: string
 }
 
 export const notes: Note[] = [
     {name: "C", midiNote: 60, alternate: "B#"},
     {name: "C#", midiNote: 61, alternate: "Db"},
-    {name: "D", midiNote: 62, alternate: undefined},
+    {name: "D", midiNote: 62},
     {name: "D#", midiNote: 63, alternate: "Eb"},
     {name: "E", midiNote: 64, alternate: "Fb"},
     {name: "F", midiNote: 65, alternate: "E#"},
     {name: "F#", midiNote: 66, alternate: "Gb"},
-    {name: "G", midiNote: 67, alternate: undefined},
+    {name: "G", midiNote: 67},
     {name: "G#", midiNote: 68, alternate: "Ab"},
-    {name: "A", midiNote: 69, alternate: undefined},
+    {name: "A", midiNote: 69},
     {name: "A#", midiNote: 70, alternate: "Bb"},
     {name: "B", midiNote: 71, alternate: "Cb", german: "H"}
 ]
 
 export interface PotentialNote {
     what: string,
-    with: string | undefined,
+    with?: string,
     noteLine: string,
     direction: number
     offset: number
 }
 
 export const notesDisambiguation = new Map<number, PotentialNote[]>([
-    [0, [{noteLine: "B", what: "B#", with: "#", direction: -1, offset: 0}, {noteLine: "C", what: "C", with: undefined, direction: 0, offset: 0}]],
-    [1, [{noteLine: "C", what: "C#", with: "#", direction: 0, offset: 1}, {noteLine: "D", what: "Db", with: "b", direction: 0, offset: 1}]],
-    [2, [{noteLine: "D", what: "D", with: undefined, direction: 0, offset: 2}]],
-    [3, [{noteLine: "D", what: "D#", with: "#", direction: 0, offset: 3}, {noteLine: "E", what: "Eb", with: "b", direction: 0, offset: 3}]],
-    [4, [{noteLine: "E", what: "E", with: undefined, direction: 0, offset: 4}, {noteLine: "F", what: "Fb", with: "b", direction: 0, offset: 4}]],
-    [5, [{noteLine: "F", what: "F", with: undefined, direction: 0, offset: 5}, {noteLine: "E", what: "E#", with: "#", direction: 0, offset: 5}]],
-    [6, [{noteLine: "F", what: "F#", with: "#", direction: 0, offset: 6}, {noteLine: "G", what: "Gb", with: "b", direction: 0, offset: 6}]],
-    [7, [{noteLine: "G", what: "G", with: undefined, direction: 0, offset: 7}]],
-    [8, [{noteLine: "G", what: "G#", with: "#", direction: 0, offset: 8}, {noteLine: "A", what: "Ab", with: "b", direction: 0, offset: 8}]],
-    [9, [{noteLine: "A", what: "A", with: undefined, direction: 0, offset: 9}]],
-    [10, [{noteLine: "A", what: "A#", with: "#", direction: 0, offset: 10}, {noteLine: "B", what: "Bb", with: "b", direction: 0, offset: 10}]],
-    [11, [{noteLine: "B", what: "B", with: undefined, direction: 0, offset: 11}, {noteLine: "C", what: "Cb", with: "b", direction: 1, offset: 11}]],
+    [0, [{noteLine: "B", what: "B#", with: "#", direction: -1, offset: 0}, {
+        noteLine: "C",
+        what: "C",
+        direction: 0,
+        offset: 0
+    }]],
+    [1, [{noteLine: "C", what: "C#", with: "#", direction: 0, offset: 1}, {
+        noteLine: "D",
+        what: "Db",
+        with: "b",
+        direction: 0,
+        offset: 1
+    }]],
+    [2, [{noteLine: "D", what: "D", direction: 0, offset: 2}]],
+    [3, [{noteLine: "D", what: "D#", with: "#", direction: 0, offset: 3}, {
+        noteLine: "E",
+        what: "Eb",
+        with: "b",
+        direction: 0,
+        offset: 3
+    }]],
+    [4, [{noteLine: "E", what: "E", direction: 0, offset: 4}, {
+        noteLine: "F",
+        what: "Fb",
+        with: "b",
+        direction: 0,
+        offset: 4
+    }]],
+    [5, [{noteLine: "F", what: "F", direction: 0, offset: 5}, {
+        noteLine: "E",
+        what: "E#",
+        with: "#",
+        direction: 0,
+        offset: 5
+    }]],
+    [6, [{noteLine: "F", what: "F#", with: "#", direction: 0, offset: 6}, {
+        noteLine: "G",
+        what: "Gb",
+        with: "b",
+        direction: 0,
+        offset: 6
+    }]],
+    [7, [{noteLine: "G", what: "G", direction: 0, offset: 7}]],
+    [8, [{noteLine: "G", what: "G#", with: "#", direction: 0, offset: 8}, {
+        noteLine: "A",
+        what: "Ab",
+        with: "b",
+        direction: 0,
+        offset: 8
+    }]],
+    [9, [{noteLine: "A", what: "A", direction: 0, offset: 9}]],
+    [10, [{noteLine: "A", what: "A#", with: "#", direction: 0, offset: 10}, {
+        noteLine: "B",
+        what: "Bb",
+        with: "b",
+        direction: 0,
+        offset: 10
+    }]],
+    [11, [{noteLine: "B", what: "B", direction: 0, offset: 11}, {
+        noteLine: "C",
+        what: "Cb",
+        with: "b",
+        direction: 1,
+        offset: 11
+    }]],
 ])
 
 export interface Scale {
     offset: number
     note: string
-    enharmonic: string | undefined
-    accidental: string | undefined,
+    enharmonic?: string,
+    accidental?: string,
     numAccidental: number,
     type: ScaleType,
     german?: string
@@ -79,22 +132,21 @@ export enum ScaleType {
 }
 
 export const majorScalesMap: Map<string, Scale> = new Map<string, Scale>([
-    ["C", {offset: 0, note: "C", enharmonic: undefined, accidental: undefined, numAccidental: 0, type: ScaleType.MAJOR}],
+    ["C", {offset: 0, note: "C", numAccidental: 0, type: ScaleType.MAJOR}],
     ["C#", {offset: 1, note: "C#", enharmonic: "Db", accidental: "#", numAccidental: 7, type: ScaleType.MAJOR}],
     ["Db", {offset: 1, note: "Db", enharmonic: "C#", accidental: "b", numAccidental: 5, type: ScaleType.MAJOR}],
-    ["D", {offset: 2, note: "D", enharmonic: undefined, accidental: "#", numAccidental: 2, type: ScaleType.MAJOR}],
-    ["Eb", {offset: 3, note: "Eb", enharmonic: undefined, accidental: "b", numAccidental: 3, type: ScaleType.MAJOR}],
-    ["E", {offset: 4, note: "E", enharmonic: undefined, accidental: "#", numAccidental: 4, type: ScaleType.MAJOR}],
-    ["F", {offset: 5, note: "F", enharmonic: undefined, accidental: "b", numAccidental: 1, type: ScaleType.MAJOR}],
+    ["D", {offset: 2, note: "D", accidental: "#", numAccidental: 2, type: ScaleType.MAJOR}],
+    ["Eb", {offset: 3, note: "Eb", accidental: "b", numAccidental: 3, type: ScaleType.MAJOR}],
+    ["E", {offset: 4, note: "E", accidental: "#", numAccidental: 4, type: ScaleType.MAJOR}],
+    ["F", {offset: 5, note: "F", accidental: "b", numAccidental: 1, type: ScaleType.MAJOR}],
     ["F#", {offset: 6, note: "F#", enharmonic: "Gb", accidental: "#", numAccidental: 6, type: ScaleType.MAJOR}],
     ["Gb", {offset: 6, note: "Gb", enharmonic: "F#", accidental: "b", numAccidental: 6, type: ScaleType.MAJOR}],
-    ["G", {offset: 7, note: "G", enharmonic: undefined, accidental: "#", numAccidental: 1, type: ScaleType.MAJOR}],
-    ["Ab", {offset: 8, note: "Ab", enharmonic: undefined, accidental: "b", numAccidental: 4, type: ScaleType.MAJOR}],
-    ["A", {offset: 9, note: "A", enharmonic: undefined, accidental: "#", numAccidental: 3, type: ScaleType.MAJOR}],
+    ["G", {offset: 7, note: "G", accidental: "#", numAccidental: 1, type: ScaleType.MAJOR}],
+    ["Ab", {offset: 8, note: "Ab", accidental: "b", numAccidental: 4, type: ScaleType.MAJOR}],
+    ["A", {offset: 9, note: "A", accidental: "#", numAccidental: 3, type: ScaleType.MAJOR}],
     ["Bb", {
         offset: 10,
         note: "Bb",
-        enharmonic: undefined,
         accidental: "b",
         numAccidental: 2,
         type: ScaleType.MAJOR,
@@ -113,15 +165,19 @@ export const majorScalesMap: Map<string, Scale> = new Map<string, Scale>([
 ])
 
 export const minorScalesMap: Map<string, Scale> = new Map<string, Scale>([
-    ["A", {offset: 9, note: "A", enharmonic: undefined, accidental: undefined, numAccidental: 0, type: ScaleType.MINOR}],
-    ["D", {offset: 2, note: "D", enharmonic: undefined, accidental: "b", numAccidental: 1, type: ScaleType.MINOR}],
-    ["G", {offset: 7, note: "G", enharmonic: undefined, accidental: "b", numAccidental: 2, type: ScaleType.MINOR}],
-    ["C", {offset: 0, note: "C", enharmonic: undefined, accidental: "b", numAccidental: 3, type: ScaleType.MINOR}],
-    ["F", {offset: 5, note: "F", enharmonic: undefined, accidental: "b", numAccidental: 4, type: ScaleType.MINOR}],
+    ["A", {
+        offset: 9,
+        note: "A",
+        numAccidental: 0,
+        type: ScaleType.MINOR
+    }],
+    ["D", {offset: 2, note: "D", accidental: "b", numAccidental: 1, type: ScaleType.MINOR}],
+    ["G", {offset: 7, note: "G", accidental: "b", numAccidental: 2, type: ScaleType.MINOR}],
+    ["C", {offset: 0, note: "C", accidental: "b", numAccidental: 3, type: ScaleType.MINOR}],
+    ["F", {offset: 5, note: "F", accidental: "b", numAccidental: 4, type: ScaleType.MINOR}],
     ["Bb", {
         offset: 10,
         note: "Bb",
-        enharmonic: undefined,
         accidental: "b",
         numAccidental: 5,
         type: ScaleType.MINOR,
@@ -129,19 +185,18 @@ export const minorScalesMap: Map<string, Scale> = new Map<string, Scale>([
     }],
     ["Eb", {offset: 3, note: "Eb", enharmonic: "D#", accidental: "b", numAccidental: 6, type: ScaleType.MINOR}],
     ["D#", {offset: 3, note: "D#", enharmonic: "Eb", accidental: "#", numAccidental: 6, type: ScaleType.MINOR}],
-    ["G#", {offset: 8, note: "G#", enharmonic: undefined, accidental: "#", numAccidental: 5, type: ScaleType.MINOR}],
-    ["C#", {offset: 1, note: "C#", enharmonic: undefined, accidental: "#", numAccidental: 4, type: ScaleType.MINOR}],
-    ["F#", {offset: 6, note: "F#", enharmonic: undefined, accidental: "#", numAccidental: 3, type: ScaleType.MINOR}],
+    ["G#", {offset: 8, note: "G#", accidental: "#", numAccidental: 5, type: ScaleType.MINOR}],
+    ["C#", {offset: 1, note: "C#", accidental: "#", numAccidental: 4, type: ScaleType.MINOR}],
+    ["F#", {offset: 6, note: "F#", accidental: "#", numAccidental: 3, type: ScaleType.MINOR}],
     ["B", {
         offset: 11,
         note: "B",
-        enharmonic: undefined,
         accidental: "#",
         numAccidental: 2,
         type: ScaleType.MINOR,
         german: "H"
     }],
-    ["E", {offset: 4, note: "E", enharmonic: undefined, accidental: "#", numAccidental: 1, type: ScaleType.MINOR}]
+    ["E", {offset: 4, note: "E", accidental: "#", numAccidental: 1, type: ScaleType.MINOR}]
 ])
 
 export const allSharps: string[] = ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]

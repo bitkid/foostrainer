@@ -37,7 +37,7 @@ export class ScaleHelper {
 
     public static getNotes(scale: Scale) {
         let accidentals: string[]
-        if (scale.accidental == undefined) {
+        if (!scale.accidental) {
             accidentals = []
         } else if (scale.accidental == "#") {
             accidentals = allSharps.slice(0, scale.numAccidental)
@@ -50,7 +50,7 @@ export class ScaleHelper {
         return intervals.map((i: number): PotentialNote => {
             const canBees = notesDisambiguation.get((i + scale.offset) % 12)!!
             if (accidentals.length == 0) {
-                const cb = canBees.filter((x) => x.with == undefined)
+                const cb = canBees.filter((x) => !x.with)
                 if (cb.length != 1)
                     throw new Error("should be exactly on note matching but found " + cb)
                 return cb[0]
@@ -58,7 +58,7 @@ export class ScaleHelper {
                 const cb = canBees.filter((x) => accidentals.indexOf(x.what) != -1)
                 if (cb.length == 1)
                     return cb[0]
-                const cb1 = canBees.filter((x) => x.with === undefined)
+                const cb1 = canBees.filter((x) => !x.with)
                 if (cb1.length != 1)
                     throw new Error("should be exactly on note matching but found " + cb1)
                 return cb1[0]

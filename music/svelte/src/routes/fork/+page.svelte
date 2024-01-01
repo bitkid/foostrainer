@@ -3,8 +3,8 @@
     import type {Note} from "$lib/MusicData"
     import {notes} from "$lib/MusicData"
     import {RandomHelper} from "$lib/RandomHelper"
-    import {Button, Column, Row} from "carbon-components-svelte";
-    import {PartitionCollection, Play} from "carbon-icons-svelte";
+    import {Button, ButtonSet, Column, Row, Select, SelectItem, Tooltip} from "carbon-components-svelte";
+    import {PartitionCollection, Play, View} from "carbon-icons-svelte";
 
     let currentNote: Note = RandomHelper.getRandomNote()
     let playing: boolean = false
@@ -12,6 +12,9 @@
     let spree = 0
     let rank = "Blechohr"
     let message: string = "Viel Gl&uumlck!"
+
+    let selected = "C"
+    let invalid = false
 
     function playSound() {
         playing = true
@@ -33,7 +36,8 @@
         return note.name
     }
 
-    function checkNote(note: Note) {
+    function checkNote() {
+        const note = notes.find((x) => x.name == selected)!!
         if (currentNote.midiNote == note.midiNote) {
             spree++
             message = "Nice!"
@@ -66,44 +70,61 @@
             }
         } else {
             spree = 0
+            invalid = true
             rank = "Blechohr"
             message = "Oh nein! Es w&auml;hre ein " + currentNote.name + " gewesen. Probiers nochmal!"
         }
         currentNote = RandomHelper.getRandomNote()
     }
 </script>
-
 <Row>
     <Column>
+        <p>Bestimme die richtige Note und steige weiter im Rang auf! </p>
         <p>
-            Drücke den Abspielen
-            <Play/>
-            Knopf und höre Dir die Note an. Bestimme mit Hilfe der Stimmgabel
-            <PartitionCollection/>
-            um welche Note es sich handelt und drücke den jeweiligen Knopf mit der richtigen Note. Für jede richtig
-            erratene Note gibt es einen
-            Punkt und Du steigst immer weiter auf in
-            deinem Rang! Aber Vorsicht - liegst Du falsch musst Du wieder von vorne beginnen!
+            <Tooltip triggerText="Mehr Informationen">
+                <p>
+                    Drücke den Abspielen
+                    <Play/>
+                    Knopf und höre Dir die Note an. Bestimme mit Hilfe der Stimmgabel
+                    <PartitionCollection/>
+                    um welche Note es sich handelt und drücke den jeweiligen Knopf mit der richtigen Note. Für jede
+                    richtig
+                    erratene Note gibt es einen
+                    Punkt und Du steigst immer weiter auf in
+                    deinem Rang! Aber Vorsicht - liegst Du falsch musst Du wieder von vorne beginnen!
+                </p>
+            </Tooltip>
         </p>
     </Column>
 </Row>
 <Row>
     <Column>
-        <h4 style="text-align: center">{@html message}</h4>
-        <p style="text-align: center;">Punkte: {spree}</p>
-        <p style="text-align: center;">Rang: {@html rank}</p>
+        <p style="text-align: center">{@html message}</p>
+        <p style="text-align: center;">Rang: {@html rank} ({spree} Punkte)</p>
     </Column>
 </Row>
 <Row>
     <Column>
-        <Button disabled={playing} icon={Play} on:click={playSound}>Abspielen</Button>
-        <Button disabled={playing} icon={PartitionCollection} on:click={playASound}>Stimmgabel</Button>
+        <ButtonSet>
+            <Button disabled={playing} icon={Play} on:click={playSound}>Abspielen</Button>
+            <Button disabled={playing} icon={PartitionCollection} on:click={playASound}>Stimmgabel</Button>
+        </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
-        {#each notes as n}
-            <Button kind="tertiary" size="small" on:click={() => {checkNote(n)}}>{noteName(n)}</Button>
-        {/each}
+        <Select bind:selected invalid={invalid} labelText="Wähle eine Note:" on:change={(_) => invalid = false}
+                size="xl">
+            {#each notes as n}
+                <SelectItem value="{n.name}" text="{noteName(n)}"/>
+            {/each}
+        </Select>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <ButtonSet>
+            <Button icon={View} kind="tertiary" on:click={checkNote}>Überprüfen</Button>
+        </ButtonSet>
     </Column>
 </Row>

@@ -27,7 +27,7 @@
 
     function getStaveNote(note: PotentialNote, oct: number): StaveNote {
         const k = note.noteLine + "/" + oct
-        if (note.with === undefined) {
+        if (!note.with) {
             return new StaveNote({
                 keys: [k],
                 duration: "q",
