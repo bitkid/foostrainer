@@ -76,11 +76,6 @@
 </Row>
 <Row>
     <Column>
-        <h4>{divContent}</h4>
-    </Column>
-</Row>
-<Row>
-    <Column>
         <ButtonSet>
             <Button icon={FaceSatisfied} on:click={newMajorScale} size="small">Dur</Button>
             <Button icon={FaceNeutral} on:click={newMinorScale} size="small">Moll</Button>
@@ -89,9 +84,14 @@
 </Row>
 <Row>
     <Column>
+        <p>{divContent}</p>
+    </Column>
+</Row>
+<NotePanel bind:this={notePanel}/>
+<Row>
+    <Column>
         <ButtonSet>
             <Button icon={View} kind="tertiary" on:click={showScale} size="small">Anzeigen</Button>
         </ButtonSet>
     </Column>
 </Row>
-<NotePanel bind:this={notePanel}/>

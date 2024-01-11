@@ -87,13 +87,8 @@
 </Row>
 <Row>
     <Column>
-        <h4>{divContent}</h4>
-    </Column>
-</Row>
-<Row>
-    <Column>
         <ButtonSet>
-            <Button disabled={playing} icon={PartitionCollection} on:click={playATone} size="small">Stimmgabel</Button>
+            <Button disabled={playing} icon={PartitionCollection} kind="secondary" on:click={playATone} size="small">Stimmgabel</Button>
         </ButtonSet>
     </Column>
 </Row>
@@ -107,13 +102,18 @@
 </Row>
 <Row>
     <Column>
+        <p>{divContent}</p>
+    </Column>
+</Row>
+<NotePanel bind:this={notePanel}/>
+<Row>
+    <Column>
         <ButtonSet>
             <Button icon={View} kind="tertiary" on:click={showSong} size="small">Anzeigen</Button>
             <Button icon={Restart} kind="tertiary" on:click={changeSong} size="small">Nochmal!</Button>
         </ButtonSet>
     </Column>
 </Row>
-<NotePanel bind:this={notePanel}/>
 
 
 

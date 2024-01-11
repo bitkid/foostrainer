@@ -11,12 +11,13 @@
 
     let spree = 0
     let rank = "Blechohr"
-    let message: string = "Viel Gl&uumlck!"
+    let message: string = "Viel Glück!"
 
     let selected = "C"
     let invalid = false
 
     function playSound() {
+        invalid = false
         playing = true
         $player.play(currentNote.midiNote, function () {
             playing = false
@@ -72,8 +73,13 @@
             spree = 0
             invalid = true
             rank = "Blechohr"
-            message = "Oh nein! Es w&auml;hre ein " + currentNote.name + " gewesen. Probiers nochmal!"
+            message = "Oh nein! Es wäre ein " + currentNote.name + " gewesen. Probiers nochmal!"
         }
+        currentNote = RandomHelper.getRandomNote()
+    }
+
+    function changeNote() {
+        invalid = false
         currentNote = RandomHelper.getRandomNote()
     }
 </script>
@@ -97,15 +103,15 @@
 </Row>
 <Row>
     <Column>
-        <p>{@html message}</p>
-        <p>Rang: {@html rank} ({spree} Punkte)</p>
+        <ButtonSet>
+            <Button disabled={playing} icon={PartitionCollection} kind="secondary" on:click={playASound} size="small">Stimmgabel</Button>
+        </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
         <ButtonSet>
             <Button disabled={playing} icon={Play} on:click={playSound} size="small">Abspielen</Button>
-            <Button disabled={playing} icon={PartitionCollection} on:click={playASound} size="small">Stimmgabel</Button>
         </ButtonSet>
     </Column>
 </Row>
@@ -117,6 +123,12 @@
                 <SelectItem value="{n.name}" text="{noteName(n)}"/>
             {/each}
         </Select>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <p>{@html message}</p>
+        <p>Rang: {@html rank} ({spree} Punkte)</p>
     </Column>
 </Row>
 <Row>
