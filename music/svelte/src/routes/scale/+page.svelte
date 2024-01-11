@@ -82,15 +82,15 @@
 <Row>
     <Column>
         <ButtonSet>
-            <Button icon={FaceSatisfied} on:click={newMajorScale}>Dur</Button>
-            <Button icon={FaceNeutral} on:click={newMinorScale}>Moll</Button>
+            <Button icon={FaceSatisfied} on:click={newMajorScale} size="small">Dur</Button>
+            <Button icon={FaceNeutral} on:click={newMinorScale} size="small">Moll</Button>
         </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
         <ButtonSet>
-            <Button icon={View} kind="tertiary" on:click={showScale}>Anzeigen</Button>
+            <Button icon={View} kind="tertiary" on:click={showScale} size="small">Anzeigen</Button>
         </ButtonSet>
     </Column>
 </Row>

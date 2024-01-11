@@ -93,17 +93,23 @@
 <Row>
     <Column>
         <ButtonSet>
-            <Button disabled={playing} icon={Play} on:click={playSong}>Abspielen</Button>
-            <Button disabled={playing} icon={Number_1} on:click={playFirst}>Erste Note</Button>
-            <Button disabled={playing} icon={PartitionCollection} on:click={playATone}>Stimmgabel</Button>
+            <Button disabled={playing} icon={PartitionCollection} on:click={playATone} size="small">Stimmgabel</Button>
         </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
         <ButtonSet>
-            <Button icon={View} kind="tertiary" on:click={showSong}>Anzeigen</Button>
-            <Button icon={Restart} kind="tertiary" on:click={changeSong}>Nochmal!</Button>
+            <Button disabled={playing} icon={Play} on:click={playSong} size="small">Abspielen</Button>
+            <Button disabled={playing} icon={Number_1} on:click={playFirst} size="small">Erste Note</Button>
+        </ButtonSet>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <ButtonSet>
+            <Button icon={View} kind="tertiary" on:click={showSong} size="small">Anzeigen</Button>
+            <Button icon={Restart} kind="tertiary" on:click={changeSong} size="small">Nochmal!</Button>
         </ButtonSet>
     </Column>
 </Row>

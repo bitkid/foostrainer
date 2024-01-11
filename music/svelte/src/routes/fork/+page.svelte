@@ -104,15 +104,15 @@
 <Row>
     <Column>
         <ButtonSet>
-            <Button disabled={playing} icon={Play} on:click={playSound}>Abspielen</Button>
-            <Button disabled={playing} icon={PartitionCollection} on:click={playASound}>Stimmgabel</Button>
+            <Button disabled={playing} icon={Play} on:click={playSound} size="small">Abspielen</Button>
+            <Button disabled={playing} icon={PartitionCollection} on:click={playASound} size="small">Stimmgabel</Button>
         </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
         <Select bind:selected invalid={invalid} labelText="Wähle eine Note:" on:change={(_) => invalid = false}
-                size="xl">
+                size="sm">
             {#each notes as n}
                 <SelectItem value="{n.name}" text="{noteName(n)}"/>
             {/each}
@@ -122,7 +122,7 @@
 <Row>
     <Column>
         <ButtonSet>
-            <Button icon={View} kind="tertiary" on:click={checkNote}>Überprüfen</Button>
+            <Button icon={View} kind="tertiary" on:click={checkNote} size="small">Überprüfen</Button>
         </ButtonSet>
     </Column>
 </Row>
