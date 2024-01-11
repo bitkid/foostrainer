@@ -80,27 +80,25 @@
 <Row>
     <Column>
         <p>Bestimme die richtige Note und steige weiter im Rang auf! </p>
-        <p>
-            <Tooltip triggerText="Mehr Informationen">
-                <p>
-                    Drücke den Abspielen
-                    <Play/>
-                    Knopf und höre Dir die Note an. Bestimme mit Hilfe der Stimmgabel
-                    <PartitionCollection/>
-                    um welche Note es sich handelt und drücke den jeweiligen Knopf mit der richtigen Note. Für jede
-                    richtig
-                    erratene Note gibt es einen
-                    Punkt und Du steigst immer weiter auf in
-                    deinem Rang! Aber Vorsicht - liegst Du falsch musst Du wieder von vorne beginnen!
-                </p>
-            </Tooltip>
-        </p>
+        <Tooltip triggerText="Mehr Informationen">
+            <p>
+                Drücke den Abspielen
+                <Play/>
+                Knopf und höre Dir die Note an. Bestimme mit Hilfe der Stimmgabel
+                <PartitionCollection/>
+                um welche Note es sich handelt und drücke den jeweiligen Knopf mit der richtigen Note. Für jede
+                richtig
+                erratene Note gibt es einen
+                Punkt und Du steigst immer weiter auf in
+                deinem Rang! Aber Vorsicht - liegst Du falsch musst Du wieder von vorne beginnen!
+            </p>
+        </Tooltip>
     </Column>
 </Row>
 <Row>
     <Column>
-        <p style="text-align: center">{@html message}</p>
-        <p style="text-align: center;">Rang: {@html rank} ({spree} Punkte)</p>
+        <p>{@html message}</p>
+        <p>Rang: {@html rank} ({spree} Punkte)</p>
     </Column>
 </Row>
 <Row>

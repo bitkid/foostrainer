@@ -3,7 +3,7 @@
     import {player} from "../store"
     import {RandomHelper} from "$lib/RandomHelper"
     import NotePanel from "$lib/components/NotePanel.svelte"
-    import {Button, Column, Row} from "carbon-components-svelte"
+    import {Button, ButtonSet, Column, Row, Tooltip} from "carbon-components-svelte"
     import {Number_1, PartitionCollection, Play, Restart, View} from "carbon-icons-svelte"
 
     let currentSong = RandomHelper.getRandomSongBeginning()
@@ -63,39 +63,48 @@
 <Row>
     <Column>
         <p>
-            Für diese Übung brauchst Du ein Notenheft. Drücke den Abspielen
-            <Play/>
-            Knopf und höre Dir den Liedanfang an. Mit dem Erste Note
-            <Number_1/>
-            Knopf kannst Du die erste Note immer wieder abspielen und mit Hilfe der Stimmgabel
-            <PartitionCollection/>
-            die Tonart bestimmen.
-            Schreibe die Vorzeichen der Tonart in dein Heft und notiere den Liedanfang. Achte dabei darauf, ob
-            die Noten im Bass- oder Violionschlüssel stehen. Anzeigen
-            <View/>
-            zeigt Dir die richtige Lösung und mit Nochmal!
-            <Restart/>
-            kannst Du es
-            mit einem anderen Liedanfang in einer anderen Tonart nochmal probieren.
+            Schreibe den Liedanfang mit den richtigen Vorzeichen in dein Notenheft!
         </p>
+        <Tooltip triggerText="Mehr Informationen">
+            <p>
+                Für diese Übung brauchst Du ein Notenheft. Drücke den Abspielen
+                <Play/>
+                Knopf und höre Dir den Liedanfang an. Mit dem Erste Note
+                <Number_1/>
+                Knopf kannst Du die erste Note immer wieder abspielen und mit Hilfe der Stimmgabel
+                <PartitionCollection/>
+                die Tonart bestimmen.
+                Schreibe die Vorzeichen der Tonart in dein Heft und notiere den Liedanfang. Achte dabei darauf, ob
+                die Noten im Bass- oder Violionschlüssel stehen. Anzeigen
+                <View/>
+                zeigt Dir die richtige Lösung und mit Nochmal!
+                <Restart/>
+                kannst Du es
+                mit einem anderen Liedanfang in einer anderen Tonart nochmal probieren.
+            </p>
+        </Tooltip>
     </Column>
 </Row>
 <Row>
     <Column>
-        <h4 style="text-align: center">{divContent}</h4>
+        <h4>{divContent}</h4>
     </Column>
 </Row>
 <Row>
     <Column>
-        <Button disabled={playing} icon={Play} on:click={playSong}>Abspielen</Button>
-        <Button disabled={playing} icon={Number_1} on:click={playFirst}>Erste Note</Button>
-        <Button disabled={playing} icon={PartitionCollection} on:click={playATone}>Stimmgabel</Button>
+        <ButtonSet>
+            <Button disabled={playing} icon={Play} on:click={playSong}>Abspielen</Button>
+            <Button disabled={playing} icon={Number_1} on:click={playFirst}>Erste Note</Button>
+            <Button disabled={playing} icon={PartitionCollection} on:click={playATone}>Stimmgabel</Button>
+        </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
-        <Button icon={View} kind="tertiary" on:click={showSong}>Anzeigen</Button>
-        <Button icon={Restart} kind="tertiary" on:click={changeSong}>Nochmal!</Button>
+        <ButtonSet>
+            <Button icon={View} kind="tertiary" on:click={showSong}>Anzeigen</Button>
+            <Button icon={Restart} kind="tertiary" on:click={changeSong}>Nochmal!</Button>
+        </ButtonSet>
     </Column>
 </Row>
 <NotePanel bind:this={notePanel}/>

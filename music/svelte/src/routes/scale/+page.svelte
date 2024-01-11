@@ -4,7 +4,7 @@
     import {RandomHelper} from "$lib/RandomHelper"
     import NotePanel from "$lib/components/NotePanel.svelte";
     import {onMount} from "svelte";
-    import {Button, Column, Row} from "carbon-components-svelte";
+    import {Button, ButtonSet, Column, Row, Tooltip} from "carbon-components-svelte";
     import {FaceNeutral, FaceSatisfied, View} from "carbon-icons-svelte";
 
     let scale = RandomHelper.getRandomMajorScale()
@@ -55,33 +55,43 @@
 <Row>
     <Column>
         <p>
-            Für diese Übung brauchst Du ein Notenheft. Drücke den Dur
-            <FaceSatisfied/>
-            Knopf um eine zufällige Durskala auszuwählen oder den
-            Moll
-            <FaceNeutral/>
-            Knopf um eine zufällige Mollskala auszuwählen. Schreibe die Vorzeichen der Skala in Dein Heft und notiere
-            alle Noten
-            der Skala inklusive der Oktave. Markiere dabei die Halbtonschritte. Anzeigen
-            <View/>
-            zeigt Dir die richtige Lösung.
+            Schreib die Skala mit den richtigen Vorzeichen in dein Notenheft!
         </p>
+        <Tooltip triggerText="Mehr Informationen">
+            <p>
+                Für diese Übung brauchst Du ein Notenheft. Drücke den Dur
+                <FaceSatisfied/>
+                Knopf um eine zufällige Durskala auszuwählen oder den
+                Moll
+                <FaceNeutral/>
+                Knopf um eine zufällige Mollskala auszuwählen. Schreibe die Vorzeichen der Skala in Dein Heft und
+                notiere
+                alle Noten
+                der Skala inklusive der Oktave. Markiere dabei die Halbtonschritte. Anzeigen
+                <View/>
+                zeigt Dir die richtige Lösung.
+            </p>
+        </Tooltip>
     </Column>
 </Row>
 <Row>
     <Column>
-        <h4 style="text-align: center">{divContent}</h4>
+        <h4>{divContent}</h4>
     </Column>
 </Row>
 <Row>
     <Column>
-        <Button icon={FaceSatisfied} on:click={newMajorScale}>Dur</Button>
-        <Button icon={FaceNeutral} on:click={newMinorScale}>Moll</Button>
+        <ButtonSet>
+            <Button icon={FaceSatisfied} on:click={newMajorScale}>Dur</Button>
+            <Button icon={FaceNeutral} on:click={newMinorScale}>Moll</Button>
+        </ButtonSet>
     </Column>
 </Row>
 <Row>
     <Column>
-        <Button icon={View} kind="tertiary" on:click={showScale}>Anzeigen</Button>
+        <ButtonSet>
+            <Button icon={View} kind="tertiary" on:click={showScale}>Anzeigen</Button>
+        </ButtonSet>
     </Column>
 </Row>
 <NotePanel bind:this={notePanel}/>

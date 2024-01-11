@@ -37,7 +37,7 @@
         <HeaderNavItem href="{base}/fork" text="Stimmgabel"/>
         <HeaderNavItem href="{base}/songs" text="Liedanf&auml;nge"/>
         <HeaderNavItem href="{base}/scale" text="Skalen"/>
-        <HeaderNavItem href="{base}/intervals" text="Intervalle"/>
+        <!--<HeaderNavItem href="{base}/intervals" text="Intervalle"/>-->
     </HeaderNav>
     <SideNav bind:isOpen={isSideNavOpen}>
         <SideNavItems>
@@ -45,7 +45,7 @@
             <SideNavLink href="{base}/fork" text="Stimmgabel"/>
             <SideNavLink href="{base}/songs" text="Liedanf&auml;nge"/>
             <SideNavLink href="{base}/scale" text="Skalen"/>
-            <SideNavLink href="{base}/intervals" text="Intervalle"/>
+            <!--<SideNavLink href="{base}/intervals" text="Intervalle"/>-->
         </SideNavItems>
     </SideNav>
 </Header>
