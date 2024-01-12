@@ -7,25 +7,17 @@
     import PageTitle from "$lib/components/PageTitle.svelte";
     import "carbon-components-svelte/css/all.css";
     import {base} from "$app/paths"
-    import {
-        Column,
-        Content,
-        Grid,
-        Header,
-        HeaderNav,
-        HeaderNavItem,
-        Row,
-        SideNav,
-        SideNavItems,
-        SideNavLink,
-        SkipToContent
-    } from "carbon-components-svelte"
+    import {Column, Content, Grid, Header, HeaderNav, HeaderNavItem, Row, SideNav, SideNavItems, SideNavLink, SkipToContent} from "carbon-components-svelte"
 
     let isSideNavOpen = false
     onMount(() => {
         player.set(new SynthWrapper(new WebAudioTinySynth({quality: 1, useReverb: 0})))
         document.documentElement.setAttribute("theme", "g10")
     })
+
+    function closeSideNav() {
+        isSideNavOpen = false
+    }
 </script>
 
 <Header bind:isSideNavOpen company="MATHILDA" expandedByDefault={false} platformName="Music">
@@ -41,10 +33,10 @@
     </HeaderNav>
     <SideNav bind:isOpen={isSideNavOpen}>
         <SideNavItems>
-            <SideNavLink href="{base}/" text="Home"/>
-            <SideNavLink href="{base}/fork" text="Stimmgabel"/>
-            <SideNavLink href="{base}/songs" text="Liedanf&auml;nge"/>
-            <SideNavLink href="{base}/scale" text="Skalen"/>
+            <SideNavLink href="{base}/" on:click={closeSideNav} text="Home"/>
+            <SideNavLink href="{base}/fork" on:click={closeSideNav} text="Stimmgabel"/>
+            <SideNavLink href="{base}/songs" on:click={closeSideNav} text="Liedanf&auml;nge"/>
+            <SideNavLink href="{base}/scale" on:click={closeSideNav} text="Skalen"/>
             <!--<SideNavLink href="{base}/intervals" text="Intervalle"/>-->
         </SideNavItems>
     </SideNav>
