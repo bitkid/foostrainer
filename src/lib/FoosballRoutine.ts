@@ -75,7 +75,7 @@ export class FoosballRoutine {
     private setVoice() {
         this._utterThis.voice = this._synth
             .getVoices()
-            .find(voice => voice.lang.toLowerCase().indexOf("-gb") != -1 || voice.lang.toLowerCase().indexOf("-us") != -1)!!
+            .find(voice => voice.lang.startsWith("en"))!!
         console.log(this._utterThis.voice)
     }
 
