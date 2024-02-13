@@ -43,7 +43,7 @@ export class FoosballRoutine {
         this._shots = s
         this._synth = window.speechSynthesis
         const t = this
-        speechSynthesis.onvoiceschanged = function () {
+        this._synth.onvoiceschanged = function () {
             t.setVoice()
         }
         this._utterThis = new SpeechSynthesisUtterance()

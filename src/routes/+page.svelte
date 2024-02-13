@@ -44,9 +44,9 @@
     <Accordion>
         <AccordionItem open>
             <span slot="header">Train</span>
-            <ul class="pb-2 list-decimal">
-                <li>Optionally configure passes and shots you want to train.</li>
+            <ul class="pb-2 list-none">
                 <li>Put the ball into play on your five bar like you would for a normal match.</li>
+                <li>Optionally configure passes and shots you want to train.</li>
             </ul>
             <Label class="text-xl pb-4 pt-4">{@html status}</Label>
             <Button disabled={startButtonDisabled} on:click={() => start()}>Start</Button>
