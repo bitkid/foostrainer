@@ -138,6 +138,6 @@ export class FoosballRoutine {
         this._playing = false
         clearTimeout(this.timer)
         this._noSleep.disable()
-        this.speak("bye bye")
+        this.speak("ok ciao")
     }
 }
