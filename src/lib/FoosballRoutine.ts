@@ -61,14 +61,25 @@ export class FoosballRoutine {
         return this._playing
     }
 
-    setVoice() {
+    set resetTime(value: number) {
+        this._resetTime = value * 1000
+    }
+
+    start() {
+        this._playing = true
+        // noinspection JSIgnoredPromiseFromCall
+        this._noSleep.enable()
+        this.readyFive()
+    }
+
+    private setVoice() {
         this._utterThis.voice = this._synth
             .getVoices()
             .find(voice => voice.lang.toLowerCase().indexOf("-gb") != -1 || voice.lang.toLowerCase().indexOf("-us") != -1)!!
         console.log(this._utterThis.voice)
     }
 
-    speakAndSchedule(fun: Function, interval: number, txt?: string) {
+    private speakAndSchedule(fun: Function, interval: number, txt?: string) {
         if (this.playing) {
             if (txt != null)
                 this.speak(txt)
@@ -76,58 +87,51 @@ export class FoosballRoutine {
         }
     }
 
-    speak(myTxt: string) {
+    private speak(myTxt: string) {
         this._utterThis.text = myTxt
         this._synth.speak(this._utterThis)
     }
 
-    secondTouch() {
+    private secondTouch() {
         let timeTillPass = Math.random() * (this._maxTimeOnFiveBar - this._passExecutionTime)
         this.speakAndSchedule(this.pass, timeTillPass)
         this._statusChange("Pass in " + (timeTillPass / 1000).toPrecision(2) + " seconds")
     }
 
-    startFiveBar() {
+    private startFiveBar() {
         this.speakAndSchedule(this.secondTouch, this._timeUntilSecondTouch, "go")
         this._statusChange("Go!")
     }
 
-    pass() {
+    private pass() {
         const randomPass = this.getRandomPass();
         this.speakAndSchedule(this.executePass, this._passExecutionTime, randomPass)
         this._statusChange(allPasses.find((s) => s.shortName == randomPass)?.name + " (" + randomPass + ")")
     }
 
-    getRandomPass(): string {
+    private getRandomPass(): string {
         return this._passes[Math.floor(Math.random() * this._passes.length)]
     }
 
-    getRandomShot(): string {
+    private getRandomShot(): string {
         return this._shots[Math.floor(Math.random() * this._shots.length)]
     }
 
-    shoot() {
+    private shoot() {
         const randomShot = this.getRandomShot();
         this.speakAndSchedule(this.readyFive, this._resetTime, randomShot)
         this._statusChange(allShots.find((s) => s.shortName == randomShot)?.name + " (" + randomShot + ")")
     }
 
-    readyFive() {
-        this.speakAndSchedule(this.startFiveBar, this._setupTimeout, "ready")
+    private readyFive() {
+        this.speakAndSchedule(this.startFiveBar, this._setupTimeout, "get ready")
         this._statusChange("Get ready!")
     }
 
-    executePass() {
+    private executePass() {
         let timeTillShot = Math.random() * (this._maxTimeOnThreeBar - this._shotExecutionTime)
         this.speakAndSchedule(this.shoot, timeTillShot)
         this._statusChange("Shoot in " + (timeTillShot / 1000).toPrecision(2) + " seconds")
-    }
-
-    start() {
-        this._playing = true
-        // noinspection JSIgnoredPromiseFromCall
-        this._noSleep.enable()
-        this.startFiveBar()
     }
 
     stop() {

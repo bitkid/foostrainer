@@ -4,7 +4,7 @@
 </script>
 <Navbar title="yo">
     <NavBrand href="/">
-        <span class="whitespace-nowrap text-xl font-semibold dark:text-white">Foostrainer</span>
+        <span class="whitespace-nowrap font-semibold dark:text-white text-2xl">Foostrainer</span>
     </NavBrand>
 </Navbar>
 
