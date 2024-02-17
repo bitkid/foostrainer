@@ -39,7 +39,7 @@
     })
 
     async function start() {
-        await routine.start()
+        routine.start()
         startButtonDisabled = true
         stopButtonDisabled = false
     }
@@ -55,7 +55,7 @@
 <div class="p-1 justify-center content-center w-full">
     <Card class="grid md:grid-cols-2" size="xl">
         <div class="p-4">
-            <Label class="text-3xl pb-4 content-center">Foos trainer</Label>
+            <Label class="text-3xl pb-4 content-center">Foosball trainer</Label>
             <ul class="pb-2 list-none">
                 <li>Put the ball into play on your five bar like you would for a normal match.</li>
                 <li>Optionally configure passes and shots you want to train.</li>
