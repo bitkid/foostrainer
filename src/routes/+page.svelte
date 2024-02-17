@@ -55,7 +55,7 @@
 <div class="p-1 justify-center content-center w-full">
     <Card class="grid md:grid-cols-2" size="xl">
         <div class="p-4">
-            <Label class="text-3xl pb-4 content-center">Foosball trainer</Label>
+            <Label class="text-3xl pb-4 content-center">Foosball coach</Label>
             <ul class="pb-2 list-none">
                 <li>Put the ball into play on your five bar like you would for a normal match.</li>
                 <li>Optionally configure passes and shots you want to train.</li>
@@ -63,7 +63,7 @@
             <Label class="text-xl pb-4 pt-4 content-center">{@html status}</Label>
             <Button disabled={startButtonDisabled} on:click={() => start()}>Start</Button>
             <Button disabled={stopButtonDisabled} on:click={() => stop()}>Stop</Button>
-            <Img alt="table" caption="Passes and shots" class="pt-10" src="images/table.jpg"/>
+            <Img caption="Passes and shots" class="pt-10" src="images/shotsnpasses.jpg"/>
         </div>
         <div class="p-4">
             <Label><p class="font-bold">Passes:</p></Label>
