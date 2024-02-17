@@ -37,6 +37,7 @@ export class FoosballRoutine {
             this._voice = potentialFemale[0]
         else
             this._voice = englishSpeakers[0]
+        EasySpeech.defaults({"voice": this._voice})
         console.log("set voice to " + this._voice.name)
         this._noSleep = new NoSleep()
     }
@@ -91,15 +92,16 @@ export class FoosballRoutine {
         this.speak("OK ciao")
     }
 
-    async start() {
+    start() {
         this._playing = true
-        await this._noSleep.enable()
+        // noinspection JSIgnoredPromiseFromCall
+        this._noSleep.enable()
         this.readyFive()
     }
 
     private readyFive() {
-        this.speakThenSchedule(this.schedulePass, this._timeUntilSecondTouch, "ready? go!")
-        this._statusChange("Ready? Go!")
+        this.speakThenSchedule(this.schedulePass, this._timeUntilSecondTouch, "go")
+        this._statusChange("Go")
     }
 
     private schedulePass() {
@@ -142,13 +144,15 @@ export class FoosballRoutine {
 
     private speakThenSchedule(fun: Function, interval: number, txt: string) {
         if (this.playing) {
-            this.speak(txt).then(() => this.timer = setTimeout(fun.bind(this), interval, this)).catch(() => {
+            this.speak(txt).then(() => {
+                this.timer = setTimeout(fun.bind(this), interval, this)
+            }).catch(() => {
             })
         }
     }
 
     private speak(myTxt: string): Promise<any> {
-        return EasySpeech.speak({"text": myTxt, "voice": this._voice})
+        return EasySpeech.speak({"text": myTxt})
     }
 
     private getRandomPass(): string {
