@@ -38,7 +38,7 @@
         })
     })
 
-    async function start() {
+    function start() {
         routine.start()
         startButtonDisabled = true
         stopButtonDisabled = false
@@ -52,15 +52,15 @@
     }
 </script>
 
-<div class="p-1 justify-center content-center w-full">
+<div class="p-1">
     <Card class="grid md:grid-cols-2" size="xl">
         <div class="p-4">
-            <Label class="text-3xl pb-4 content-center">Foosball coach</Label>
+            <Label class="text-3xl pb-4">Foosball coach</Label>
             <ul class="pb-2 list-none">
                 <li>Put the ball into play on your five bar like you would for a normal match.</li>
                 <li>Optionally configure passes and shots you want to train.</li>
             </ul>
-            <Label class="text-xl pb-4 pt-4 content-center">{@html status}</Label>
+            <Label class="text-xl pb-4 pt-4">{@html status}</Label>
             <Button disabled={startButtonDisabled} on:click={() => start()}>Start</Button>
             <Button disabled={stopButtonDisabled} on:click={() => stop()}>Stop</Button>
             <Img caption="Passes and shots" class="pt-10" src="images/shotsnpasses.jpg"/>
