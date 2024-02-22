@@ -35,10 +35,11 @@ export class FoosballRoutine {
         const potentialFemale: SpeechSynthesisVoice[] = englishSpeakers.filter((s: SpeechSynthesisVoice) => s.name.toLowerCase().indexOf("female") != -1)
         if (potentialFemale.length > 0)
             this._voice = potentialFemale[0]
-        else
+        else if (englishSpeakers.length > 0)
             this._voice = englishSpeakers[0]
+        else
+            this._voice = EasySpeech.voices()[0]
         EasySpeech.defaults({"voice": this._voice})
-        console.log("set voice to " + this._voice.name)
         this._noSleep = new NoSleep()
     }
 
