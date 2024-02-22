@@ -26,8 +26,10 @@ export const allShots: Execution[] = [
 export class FoosballRoutine {
     private _noSleep: NoSleep
     private _timeUntilSecondTouch = 2000
+    private _ballResetTime = 2000
     private _passExecutionTime = 2000
     private _ballSetupTime = 2000
+    private _shotExecutionTime = 2000
     private _playing = false
     private _timer?: number
 
@@ -73,13 +75,9 @@ export class FoosballRoutine {
         this._ballSetupTime = value * 1000
     }
 
-    private _shotExecutionTime = 2000
-
     set shotExecutionTime(value: number) {
         this._shotExecutionTime = value * 1000
     }
-
-    private _ballResetTime = 2000
 
     set ballResetTime(value: number) {
         this._ballResetTime = value * 1000
