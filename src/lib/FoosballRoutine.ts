@@ -25,21 +25,24 @@ export const allShots: Execution[] = [
 
 export class FoosballRoutine {
     private _noSleep: NoSleep
-    private readonly _voice: SpeechSynthesisVoice
 
     constructor(p: string[], s: string[], statusChange: Function) {
         this._statusChange = statusChange
         this._passes = p
         this._shots = s
+
         const englishSpeakers = EasySpeech.filterVoices({"language": "en"});
         const potentialFemale: SpeechSynthesisVoice[] = englishSpeakers.filter((s: SpeechSynthesisVoice) => s.name.toLowerCase().indexOf("female") != -1)
+        let voice: SpeechSynthesisVoice
         if (potentialFemale.length > 0)
-            this._voice = potentialFemale[0]
+            voice = potentialFemale[0]
         else if (englishSpeakers.length > 0)
-            this._voice = englishSpeakers[0]
+            voice = englishSpeakers[0]
         else
-            this._voice = EasySpeech.voices()[0]
-        EasySpeech.defaults({"voice": this._voice})
+            voice = EasySpeech.voices()[0]
+        EasySpeech.defaults({"voice": voice})
+        console.log("set voice to " + voice.name)
+
         this._noSleep = new NoSleep()
     }
 
