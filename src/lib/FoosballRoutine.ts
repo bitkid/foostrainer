@@ -25,6 +25,17 @@ export const allShots: Execution[] = [
 
 export class FoosballRoutine {
     private _noSleep: NoSleep
+    private _timeUntilSecondTouch = 2000
+    private _passExecutionTime = 2000
+    private _ballSetupTime = 2000
+    private _playing = false
+    private _timer?: number
+
+    private readonly _maxTimeOnFiveBar = 10000
+    private readonly _maxTimeOnThreeBar = 15000
+    private readonly _passes: string[]
+    private readonly _shots: string[]
+    private readonly _statusChange: Function
 
     constructor(p: string[], s: string[], statusChange: Function) {
         this._statusChange = statusChange
@@ -46,28 +57,13 @@ export class FoosballRoutine {
         this._noSleep = new NoSleep()
     }
 
-    private _timeUntilSecondTouch = 2000
-
     set timeUntilSecondTouch(value: number) {
         this._timeUntilSecondTouch = value * 1000
     }
 
-    private _passExecutionTime = 2000
-
-    private readonly _maxTimeOnFiveBar = 10000
-    private readonly _maxTimeOnThreeBar = 15000
-    private readonly _passes: string[]
-    private readonly _shots: string[]
-    private readonly _statusChange: Function
-    private timer?: number
-
     set passExecutionTime(value: number) {
         this._passExecutionTime = value * 1000
     }
-
-    private _ballSetupTime = 2000
-
-    private _playing = false
 
     get playing(): boolean {
         return this._playing
@@ -91,7 +87,7 @@ export class FoosballRoutine {
 
     stop() {
         this._playing = false
-        clearTimeout(this.timer)
+        clearTimeout(this._timer)
         this._noSleep.disable()
         this.speak("OK ciao")
     }
@@ -142,14 +138,14 @@ export class FoosballRoutine {
             if (txt != null)
                 this.speak(txt).catch(() => {
                 })
-            this.timer = setTimeout(fun.bind(this), interval, this)
+            this._timer = setTimeout(fun.bind(this), interval, this)
         }
     }
 
     private speakThenSchedule(fun: Function, interval: number, txt: string) {
         if (this.playing) {
             this.speak(txt).then(() => {
-                this.timer = setTimeout(fun.bind(this), interval, this)
+                this._timer = setTimeout(fun.bind(this), interval, this)
             }).catch(() => {
             })
         }
