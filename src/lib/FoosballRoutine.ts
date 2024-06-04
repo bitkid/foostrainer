@@ -96,12 +96,12 @@ export class FoosballRoutine {
         this._playing = true
         // noinspection JSIgnoredPromiseFromCall
         this._noSleep.enable()
-        this.readyFive()
+        this.speak("3").then(() => this.speak("2")).then(() => this.speak("1")).then(() => this.readyFive())
     }
 
     private readyFive() {
-        this.speakThenSchedule(this.schedulePass, this._timeUntilSecondTouch, "go")
-        this._statusChange("Go")
+        this.speakThenSchedule(this.schedulePass, this._timeUntilSecondTouch, "start")
+        this._statusChange("Start moving the ball")
     }
 
     private schedulePass() {
@@ -118,12 +118,12 @@ export class FoosballRoutine {
 
     private setupBall() {
         this.speakAndSchedule(this.scheduleShot, this._ballSetupTime)
-        this._statusChange("Setup ball")
+        this._statusChange("Setup the ball in shooting position")
     }
 
     private scheduleShot() {
         let timeTillShot = Math.max(2000, Math.random() * (this._maxTimeOnThreeBar - this._shotExecutionTime - this._ballSetupTime))
-        this.speakAndSchedule(this.shoot, timeTillShot)
+        this.speakAndSchedule(this.shoot, timeTillShot, "go")
         this._statusChange("Shoot in " + (timeTillShot / 1000).toPrecision(2) + " seconds")
     }
 
