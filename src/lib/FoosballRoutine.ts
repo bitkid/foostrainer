@@ -116,7 +116,7 @@ export class FoosballRoutine {
 
     private setupBall() {
         this.speakAndSchedule(this.scheduleShot, this._ballSetupTime)
-        this._statusChange("Setup the ball in shooting position")
+        this._statusChange("Setup shot")
     }
 
     private scheduleShot() {

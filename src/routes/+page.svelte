@@ -1,6 +1,6 @@
 <script lang="ts">
     import {allPasses, allShots, FoosballRoutine} from "$lib/FoosballRoutine";
-    import {Button, Card, Checkbox, Img, Label, Range} from 'flowbite-svelte'
+    import {Accordion, AccordionItem, Button, Card, Checkbox, Img, Label, Range} from 'flowbite-svelte'
     import {onMount} from "svelte"
     // @ts-ignore
     import EasySpeech from "easy-speech"
@@ -61,17 +61,30 @@
                 You can configure the passes and shots you want to train. You can also change different timings if the defaults are too fast/slow for you.
                 To start the training setup the ball on your five bar like you would for a normal match and press START.
             </div>
-            <ul class="pb-8 list-decimal list-outside">
-                <li>When you hear "start" start moving the ball on the 5 bar.</li>
-                <li>As soon as you hear a number execute the pass.</li>
-                <li>When you hear "go" you should be in your preferred shooting position.</li>
-                <li>As soon as you hear a number execute the shot.</li>
-                <li>Setup the ball immediately after the shot on the 5 bar.</li>
-            </ul>
-            <Button disabled={startButtonDisabled} on:click={() => start()} size="xl">START</Button>
-            <Button disabled={stopButtonDisabled} on:click={() => stop()} size="xl">STOP</Button>
-            <Label class="text-xl pb-8 pt-4">{@html status}</Label>
-            <Img caption="Passes and shots" src="images/shotsnpasses.jpg"/>
+            <Accordion class="pb-8" flush>
+                <AccordionItem>
+                    <span slot="header">HOW TO</span>
+                    <ul class="list-decimal list-inside">
+                        <li>When you hear "start" start moving the ball on the 5 bar.</li>
+                        <li>As soon as you hear a number execute the pass.</li>
+                        <li>When you hear "go" you should be in your preferred shooting position.</li>
+                        <li>As soon as you hear a number execute the shot.</li>
+                        <li>Setup the ball immediately after the shot on the 5 bar.</li>
+                    </ul>
+                </AccordionItem>
+            </Accordion>
+            <div class="grid grid-cols-1 justify-items-center">
+                <div>
+                    <Button disabled={startButtonDisabled} on:click={() => start()} size="xl">START</Button>
+                    <Button disabled={stopButtonDisabled} on:click={() => stop()} size="xl">STOP</Button>
+                </div>
+                <div>
+                    <Label class="text-xl pb-8 pt-4">{@html status}</Label>
+                </div>
+                <div>
+                    <Img caption="Passes and shots" src="images/shotsnpasses.jpg"/>
+                </div>
+            </div>
         </div>
         <div class="p-4">
             <Label><p class="font-bold">Passes:</p></Label>
