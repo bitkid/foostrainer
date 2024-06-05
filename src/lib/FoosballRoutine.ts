@@ -25,45 +25,47 @@ export const allShots: Execution[] = [
 
 export class FoosballRoutine {
     private _noSleep: NoSleep
-    private readonly _voice: SpeechSynthesisVoice
-
-    constructor(p: string[], s: string[], statusChange: Function) {
-        this._statusChange = statusChange
-        this._passes = p
-        this._shots = s
-        const englishSpeakers = EasySpeech.filterVoices({"language": "en"});
-        const potentialFemale: SpeechSynthesisVoice[] = englishSpeakers.filter((s: SpeechSynthesisVoice) => s.name.toLowerCase().indexOf("female") != -1)
-        if (potentialFemale.length > 0)
-            this._voice = potentialFemale[0]
-        else
-            this._voice = englishSpeakers[0]
-        EasySpeech.defaults({"voice": this._voice})
-        console.log("set voice to " + this._voice.name)
-        this._noSleep = new NoSleep()
-    }
-
     private _timeUntilSecondTouch = 2000
-
-    set timeUntilSecondTouch(value: number) {
-        this._timeUntilSecondTouch = value * 1000
-    }
-
+    private _ballResetTime = 2000
     private _passExecutionTime = 2000
+    private _ballSetupTime = 2000
+    private _shotExecutionTime = 2000
+    private _playing = false
+    private _timer?: number
 
     private readonly _maxTimeOnFiveBar = 10000
     private readonly _maxTimeOnThreeBar = 15000
     private readonly _passes: string[]
     private readonly _shots: string[]
     private readonly _statusChange: Function
-    private timer?: number
+
+    constructor(p: string[], s: string[], statusChange: Function) {
+        this._statusChange = statusChange
+        this._passes = p
+        this._shots = s
+
+        const englishSpeakers = EasySpeech.filterVoices({"language": "en"});
+        const potentialFemale: SpeechSynthesisVoice[] = englishSpeakers.filter((s: SpeechSynthesisVoice) => s.name.toLowerCase().indexOf("female") != -1)
+        let voice: SpeechSynthesisVoice
+        if (potentialFemale.length > 0)
+            voice = potentialFemale[0]
+        else if (englishSpeakers.length > 0)
+            voice = englishSpeakers[0]
+        else
+            voice = EasySpeech.voices()[0]
+        EasySpeech.defaults({"voice": voice})
+        console.log("set voice to " + voice.name)
+
+        this._noSleep = new NoSleep()
+    }
+
+    set timeUntilSecondTouch(value: number) {
+        this._timeUntilSecondTouch = value * 1000
+    }
 
     set passExecutionTime(value: number) {
         this._passExecutionTime = value * 1000
     }
-
-    private _ballSetupTime = 2000
-
-    private _playing = false
 
     get playing(): boolean {
         return this._playing
@@ -73,13 +75,9 @@ export class FoosballRoutine {
         this._ballSetupTime = value * 1000
     }
 
-    private _shotExecutionTime = 2000
-
     set shotExecutionTime(value: number) {
         this._shotExecutionTime = value * 1000
     }
-
-    private _ballResetTime = 2000
 
     set ballResetTime(value: number) {
         this._ballResetTime = value * 1000
@@ -87,7 +85,7 @@ export class FoosballRoutine {
 
     stop() {
         this._playing = false
-        clearTimeout(this.timer)
+        clearTimeout(this._timer)
         this._noSleep.disable()
         this.speak("OK ciao")
     }
@@ -138,14 +136,14 @@ export class FoosballRoutine {
             if (txt != null)
                 this.speak(txt).catch(() => {
                 })
-            this.timer = setTimeout(fun.bind(this), interval, this)
+            this._timer = setTimeout(fun.bind(this), interval, this)
         }
     }
 
     private speakThenSchedule(fun: Function, interval: number, txt: string) {
         if (this.playing) {
             this.speak(txt).then(() => {
-                this.timer = setTimeout(fun.bind(this), interval, this)
+                this._timer = setTimeout(fun.bind(this), interval, this)
             }).catch(() => {
             })
         }
