@@ -19,10 +19,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install deps
         run: npm install
-        working-directory: frontend
+        working-directory: .
       - name: Run Build
         run: npm run build
-        working-directory: frontend
+        working-directory: .
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
