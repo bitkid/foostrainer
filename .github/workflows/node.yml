@@ -1,0 +1,37 @@
+name: Node CI
+
+on: [ push ]
+
+jobs:
+  build-frontend:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 23.x ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install deps
+        run: npm install
+        working-directory: .
+      - name: Run Build
+        run: npm run build
+        working-directory: .
+      - name: Copy htaccess
+        run: cp .htaccess ./build/.htaccess
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: bitkid.com
+          username: ${{ secrets.FTPUSER }}
+          password: ${{ secrets.FTPPASSWORD }}
+          protocol: ftps
+          dangerous-clean-slate: true
+          local-dir: ./build/
+          server-dir: web/foos/
