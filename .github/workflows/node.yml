@@ -23,6 +23,8 @@ jobs:
       - name: Run Build
         run: npm run build
         working-directory: .
+      - name: Copy htaccess
+        run: cp .htaccess ./build/.htaccess
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
