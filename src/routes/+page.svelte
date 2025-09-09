@@ -65,6 +65,8 @@
                 <AccordionItem>
                     <span slot="header">HOW TO</span>
                     <ul class="list-decimal list-inside">
+                        <li>Setup the ball on the 5 bar in kick-off position.</li>
+                        <li>Start the training.</li>
                         <li>When you hear "start" start moving the ball on the 5 bar.</li>
                         <li>As soon as you hear a number execute the pass.</li>
                         <li>When you hear "go" you should be in your preferred shooting position.</li>
