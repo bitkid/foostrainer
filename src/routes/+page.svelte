@@ -8,11 +8,11 @@
     let passes: string[] = ["1", "2", "3"]
     let shots: string[] = ["1", "2", "3", "4", "5", "6", "7"]
 
-    let ballResetTime = 3
+    let ballResetTime = 4
     let timeToSecondTouch = 2
     let passExecutionTime = 2
     let shotExecutionTime = 2
-    let ballSetupTime = 2
+    let ballSetupTime = 3
 
     let startButtonDisabled = false
     let stopButtonDisabled = true
